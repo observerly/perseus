@@ -8,6 +8,7 @@ authors = ["Michael Roberts <michael@observerly.com>"]
 python = "^3.8"
 fastapi = "^0.73.0"
 uvicorn = {extras = ["standard"], version = "^0.17.4"}
+pydantic = "^1.9.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
