@@ -58,7 +58,7 @@ class Settings(BaseSettings):
             return None
         return v
 
-    FIRST_SUPERUSER: EmailStr
+    FIRST_SUPERUSER_EMAIL: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
 
     class Config:
