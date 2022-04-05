@@ -134,7 +134,7 @@ class Body(Base):
         comment="Absolute Magnitude (M)",
     )
 
-    # Distance to the star (in light years).
+    # Distance to the star (in parsecs).
     d = Column(
         Float(
             precision=5,
@@ -143,7 +143,7 @@ class Body(Base):
         ),
         index=False,
         name="distance",
-        comment="Distance (ly)",
+        comment="Distance (in parsecs, pc)",
     )
 
     # Henry Draper Catalogue Number:
