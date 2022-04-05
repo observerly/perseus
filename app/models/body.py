@@ -30,6 +30,19 @@ class Body(Base):
         comment="Common or IAU Name",
     )
 
+    # The IAU Authoritative/Designated Name
+    iau = Column(
+        String(
+            length=180,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="IAU Name",
+    )
+
     # Right ascension (abbreviated RA; symbol α) is the angular distance of a
     # particular point measured eastward along the celestial equator from the
     # Sun at the March equinox to the (hour circle of the) point in question
@@ -40,7 +53,7 @@ class Body(Base):
             asdecimal=True,
             decimal_return_scale=10,
         ),
-        index=True,
+        index=False,
         name="ra",
         comment="Right Ascension of the central point of the Body",
     )
@@ -57,7 +70,7 @@ class Body(Base):
             decimal_return_scale=10,
         ),
         name="dec",
-        index=True,
+        index=False,
         comment="Declination of the central point of the Body",
     )
 
@@ -98,7 +111,7 @@ class Body(Base):
             asdecimal=True,
             decimal_return_scale=10,
         ),
-        index=True,
+        index=False,
         name="apparent_magnitude",
         comment="Apparent Magnitude (m)",
     )
@@ -116,9 +129,99 @@ class Body(Base):
             asdecimal=True,
             decimal_return_scale=10,
         ),
-        index=True,
+        index=False,
         name="apparent_magnitude",
         comment="Absolute Magnitude (M)",
+    )
+
+    # Distance to the star (in light years).
+    d = Column(
+        Float(
+            precision=5,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="apparent_magnitude",
+        comment="Distance (ly)",
+    )
+
+    # Henry Draper Catalogue Number:
+    # The HD catalogue is named after Henry Draper, an amateur astronomer, and
+    # covers the entire sky almost completely down to an apparent photographic
+    # magnitude of about 9; the extensions added fainter stars in certain areas
+    # of the sky.
+    hd = Column(
+        String(
+            length=180,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="Henry Draper (HD) Catalogue Number",
+    )
+
+    # Harvard Revised Catalogue Number
+    hr = Column(
+        String(
+            length=180,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="Harvard Revised (HR) Catalogue Number",
+    )
+
+    # Hipparcos Catalogue Number
+    hip = Column(
+        String(
+            length=180,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="Hipparcos (HIP) Catalogue Number",
+    )
+
+    # Durchmusterung Catalogue Number:
+    # Durchmusterung or Bonner Durchmusterung (BD), is an astrometric star
+    # catalogue of the whole sky, compiled by the Bonn Observatory in
+    # Germany from 1859 to 1903.
+    bd = Column(
+        String(
+            length=180,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="Hipparcos (HIP) Catalogue Number",
+    )
+
+    # A Flamsteed designation is a combination of a number and constellation
+    # name that uniquely identifies most naked eye stars in the modern
+    # constellations visible from southern England. They are named for
+    # John Flamsteed who first used them while compiling his Historia
+    # Coelestis Britannica. (Flamsteed used a telescope,[1] and the catalog
+    #  also includes some stars which are relatively bright but not
+    # necessarily visible with the naked eye.)
+    flamsteed = Column(
+        String(
+            length=10,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="Flamsteed Catalogue Number",
     )
 
 
