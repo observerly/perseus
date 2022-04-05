@@ -276,6 +276,19 @@ class Body(Base):
         comment="Indexed Catalogue (IC) Number",
     )
 
+    #  SIMBAD Search Query URL
+    simbad = Column(
+        String(
+            length=200,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=False,
+        name="simbad",
+        comment="SIMBAD Search Query URL",
+    )
+
 
 @event.listens_for(Body, "before_update")
 def receive_before_update(mapper, conenction, target):
