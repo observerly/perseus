@@ -39,7 +39,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="iau",
         comment="IAU Name",
     )
 
@@ -130,7 +130,7 @@ class Body(Base):
             decimal_return_scale=10,
         ),
         index=False,
-        name="apparent_magnitude",
+        name="absolute_magnitude",
         comment="Absolute Magnitude (M)",
     )
 
@@ -142,7 +142,7 @@ class Body(Base):
             decimal_return_scale=10,
         ),
         index=False,
-        name="apparent_magnitude",
+        name="distance",
         comment="Distance (ly)",
     )
 
@@ -159,7 +159,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="hd",
         comment="Henry Draper (HD) Catalogue Number",
     )
 
@@ -172,7 +172,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="hr",
         comment="Harvard Revised (HR) Catalogue Number",
     )
 
@@ -185,7 +185,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="hip",
         comment="Hipparcos (HIP) Catalogue Number",
     )
 
@@ -201,7 +201,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="bd",
         comment="Hipparcos (HIP) Catalogue Number",
     )
 
@@ -220,7 +220,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="flamsteed",
         comment="Flamsteed Catalogue Number",
     )
 
@@ -238,7 +238,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="messier",
         comment="Messier Catalogue Number",
     )
 
@@ -255,7 +255,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="ngc",
         comment="New General Catalogue (NGC) Number",
     )
 
@@ -272,7 +272,7 @@ class Body(Base):
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="ic",
         comment="Indexed Catalogue (IC) Number",
     )
 
