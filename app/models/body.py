@@ -224,6 +224,58 @@ class Body(Base):
         comment="Flamsteed Catalogue Number",
     )
 
+    # Messier Catalogue Number:
+    # The Messier objects are a set of 110 astronomical objects catalogued by
+    # the French astronomer Charles Messier in his Catalogue des Nébuleuses et
+    # des Amas d'Étoiles (Catalogue of Nebulae and Star Clusters). Because
+    # Messier was only interested in finding comets, he created a list of those
+    # non-comet objects that frustrated his hunt for them.
+    messier = Column(
+        String(
+            length=3,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="Messier Catalogue Number",
+    )
+
+    # NGC Catalogue Number:
+    # The New General Catalogue of Nebulae and Clusters of Stars (abbreviated NGC)
+    #  is an astronomical catalogue of deep-sky objects compiled by John Louis
+    # Emil Dreyer in 1888. The NGC contains 7,840 objects, including galaxies,
+    # star clusters and emission nebulae.
+    ngc = Column(
+        String(
+            length=3,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="New General Catalogue (NGC) Number",
+    )
+
+    # Indexed Catalogues Number:
+    # Dreyer published two supplements to the NGC in 1895 and 1908, known as the
+    # Index Catalogues (abbreviated IC), describing a further 5,386 astronomical
+    # objects. Thousands of these objects are best known by their NGC or IC numbers,
+    # which remain in widespread use.
+    ic = Column(
+        String(
+            length=3,
+            collation="utf8",
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=True,
+        name="name",
+        comment="Indexed Catalogue (IC) Number",
+    )
+
 
 @event.listens_for(Body, "before_update")
 def receive_before_update(mapper, conenction, target):
