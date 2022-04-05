@@ -62,7 +62,7 @@ The process for changes to, or additions of, any models associated with this pro
 $ docker compose -f local.yml exec api bash
 ```
 
-- If you created a new model in `./backend/app/app/models/`, make sure to import it in `./backend/app/app/db/base.py`, that Python module (`base.py`) that imports all the models will be used by Alembic.
+- If you created a new model in `.app/models/`, make sure to import it in `.app/db/base.py`, that Python module (`base.py`) that imports all the models will be used by Alembic.
 
 - After changing a model (for example, adding a column), inside the container, create a revision, e.g.:
 
