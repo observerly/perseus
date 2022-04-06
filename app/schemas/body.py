@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -24,21 +26,21 @@ class BodyBase(BaseModel):
     # distance
     d: float
     # HD Number:
-    hd: str | None = None
+    hd: Optional[str] = None
     # HR Number:
-    hr: str | None = None
+    hr: Optional[str] = None
     # Hipparcos Number
-    hip: str | None = None
+    hip: Optional[str] = None
     # BD Number:
-    bd: str | None = None
+    bd: Optional[str] = None
     # Flamsteed Number:
-    flamsteed: str | None = None
+    flamsteed: Optional[str] = None
     # Messier Number:
-    messier: str | None = None
+    messier: Optional[str] = None
     # NGC Number:
-    ngc: str | None = None
+    ngc: Optional[str] = None
     # IC Number:
-    ic: str | None = None
+    ic: Optional[str] = None
 
 
 # Properties shared by models stored in DB
