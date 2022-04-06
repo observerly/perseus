@@ -1,1 +1,1 @@
-from .body import Body, BodyInDB
+from .body import Body, BodyCreate, BodyInDB
