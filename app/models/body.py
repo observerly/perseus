@@ -1,7 +1,8 @@
+import uuid
+
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 from sqlalchemy import Column, Float, String, event
-from sqlalchemy import text as sa_text
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.base_class import Base
@@ -14,14 +15,13 @@ class Body(Base):
     uid = Column(
         UUID(as_uuid=True),
         primary_key=True,
-        server_default=sa_text("uuid_generate_v4()"),
+        default=uuid.uuid4,
     )
 
     # Common Name
     name = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -34,7 +34,6 @@ class Body(Base):
     iau = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -78,7 +77,6 @@ class Body(Base):
     constellation = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -91,7 +89,6 @@ class Body(Base):
     type = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -154,7 +151,6 @@ class Body(Base):
     hd = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -167,7 +163,6 @@ class Body(Base):
     hr = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -180,7 +175,6 @@ class Body(Base):
     hip = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -196,7 +190,6 @@ class Body(Base):
     bd = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -215,7 +208,6 @@ class Body(Base):
     flamsteed = Column(
         String(
             length=10,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -233,7 +225,6 @@ class Body(Base):
     messier = Column(
         String(
             length=3,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -250,7 +241,6 @@ class Body(Base):
     ngc = Column(
         String(
             length=3,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -267,7 +257,6 @@ class Body(Base):
     ic = Column(
         String(
             length=3,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -280,7 +269,6 @@ class Body(Base):
     simbad = Column(
         String(
             length=200,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
