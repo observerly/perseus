@@ -38,10 +38,32 @@ $ poetry install
 
 ### Local Development
 
-The Perseus stack can be started with the following `docker` `compose` command:
+Before starting local develoment, you'll need to have mkcert installed on your machine or your VM.
+
+Follow the installation structions for your OS here [mkcert](https://github.com/FiloSottile/mkcert), and then run the following command:
+
+```
+mkcert -install
+```
+
+Once `mkcert` is installed, you'll need to provision a local private key and certificate:
+
+```
+mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
+```
+
+The Perseus stack can then be started with the following `docker` `compose` command:
 
 ```console
 $ docker compose -f local.yml up --build
+```
+
+### Traefik HTTPS Proxy
+
+By default, this project is served over https, simply navigate to the follow address on your localhost:
+
+```
+perseus.docker.localhost:8001
 ```
 
 ### Alembic Migrations
