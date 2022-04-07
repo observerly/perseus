@@ -97,3 +97,7 @@ class BodyCreate(BaseModel):
     ngc: Optional[str] = None
     # IC Number:
     ic: Optional[str] = None
+
+
+class BodyUpdate(BodyBase):
+    pass
