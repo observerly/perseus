@@ -65,6 +65,7 @@ services:
       - traefik.http.routers.websecured.entrypoints=websecured
     networks:
       - web
+      - api
 
   db:
     image: postgres:14-alpine
@@ -75,6 +76,8 @@ services:
       - 5432:5432
     env_file:
       - .env
+    networks:
+      - api
 
 volumes:
     postgres_data:
@@ -82,3 +85,5 @@ volumes:
 networks:
   web:
     name: web
+  api:
+    name: api
