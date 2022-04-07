@@ -1,7 +1,8 @@
+import uuid
+
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 from sqlalchemy import Column, Float, String, event
-from sqlalchemy import text as sa_text
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.base_class import Base
@@ -14,7 +15,7 @@ class Body(Base):
     uid = Column(
         UUID(as_uuid=True),
         primary_key=True,
-        server_default=sa_text("uuid_generate_v4()"),
+        default=uuid.uuid4,
     )
 
     # Common Name
