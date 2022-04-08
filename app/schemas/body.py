@@ -1,4 +1,5 @@
 from typing import Optional
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -6,25 +7,25 @@ from pydantic import BaseModel
 # Shared properties
 class BodyBase(BaseModel):
     # Unique ID:
-    uid: str
+    uid: UUID
     # Common Name:
     name: str
     # IAU Name:
     iau: str
     # Right Ascension
-    ra: float
+    ra: Optional[float] = None
     # Declination
-    dec: float
+    dec: Optional[float] = None
     # Constellation
     constellation: str
     # Object Type
     type: str
     # Apparent Magnitude:
-    m: float
+    m: Optional[float] = None
     # Absolute Magnitude:
-    M: float
+    M: Optional[float] = None
     # distance
-    d: float
+    d: Optional[float] = None
     # HD Number:
     hd: Optional[str] = None
     # HR Number:
@@ -41,12 +42,14 @@ class BodyBase(BaseModel):
     ngc: Optional[str] = None
     # IC Number:
     ic: Optional[str] = None
+    # SIMBAD
+    simbad: Optional[str] = None
 
 
 # Properties shared by models stored in DB
 class BodyInDBBase(BodyBase):
     # Unique ID:
-    uid: str
+    uid: UUID
 
     class Config:
         orm_mode = True
@@ -97,6 +100,8 @@ class BodyCreate(BaseModel):
     ngc: Optional[str] = None
     # IC Number:
     ic: Optional[str] = None
+    # SIMBAD
+    simbad: Optional[str] = None
 
 
 class BodyUpdate(BodyBase):
