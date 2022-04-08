@@ -23,7 +23,10 @@ class PaginatedResponse(GenericModel, Generic[T]):
 
     @classmethod
     def get_total_pages(cls, count: int, limit: int) -> int:
-        return math.ceil(count / limit)
+        try:
+            return math.ceil(count / limit)
+        except ZeroDivisionError:
+            return 0
 
     @classmethod
     def get_next_page(cls, current_page: int, count: int, limit: int) -> Optional[str]:
