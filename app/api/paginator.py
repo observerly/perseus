@@ -4,9 +4,13 @@ import math
 from typing import Generic, Optional, Sequence, TypeVar
 
 from fastapi import Request
+from furl import furl
+from pydantic import BaseModel
 from pydantic.generics import GenericModel
 
 T = TypeVar("T")
+
+Q = TypeVar("Q")
 
 
 class PaginatedResponse(GenericModel, Generic[T]):
@@ -66,6 +70,10 @@ class PaginatedResponse(GenericModel, Generic[T]):
         return None
 
     @classmethod
+    def get_query_params_dict(cls, query: BaseModel[Q]) -> dict[Q]:
+        return {k: v for k, v in dict(query).items() if v is not None}
+
+    @classmethod
     def paginate(
         cls,
         request: Request,
@@ -73,13 +81,20 @@ class PaginatedResponse(GenericModel, Generic[T]):
         items: Sequence[T],
         count: int,
         current_page: int,
+        query: BaseModel[Q],
         limit: int,
     ) -> PaginatedResponse[T]:
-        next_page = cls.get_next_page_url(request, name, current_page, count, limit)
+        query_params = cls.get_query_params_dict(query)
 
-        previous_page = cls.get_previous_page_url(
+        next_page_url = cls.get_next_page_url(request, name, current_page, count, limit)
+
+        previous_page_url = cls.get_previous_page_url(
             request, name, current_page, count, limit
         )
+
+        next_page = furl(next_page_url).add(query_params).url
+
+        previous_page = furl(previous_page_url).add(query_params).url
 
         return cls(
             count=count, next_page=next_page, previous_page=previous_page, results=items
