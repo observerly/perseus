@@ -92,9 +92,11 @@ class PaginatedResponse(GenericModel, Generic[T]):
             request, name, current_page, count, limit
         )
 
-        next_page = furl(next_page_url).add(query_params).url
+        next_page = furl(next_page_url).add(query_params).url if next_page_url else None
 
-        previous_page = furl(previous_page_url).add(query_params).url
+        previous_page = (
+            furl(previous_page_url).add(query_params).url if previous_page_url else None
+        )
 
         return cls(
             count=count, next_page=next_page, previous_page=previous_page, results=items
