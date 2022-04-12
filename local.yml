@@ -72,6 +72,7 @@ services:
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - ./scripts/init_pgtrgm_extension.sql:/docker-entrypoint-initdb.d/init_pgtrgm_extension.sql
     ports:
       - 5432:5432
     env_file:
