@@ -1,0 +1,13 @@
+**/.dockerignore
+**/.venv
+**/.env.config
+**/.git
+**/.gitignore
+**/.vscode
+**/docker-compose*
+**/Dockerfile*
+.DS_Store
+__pycache__
+.pytest_cache
+LICENSE
+README.md

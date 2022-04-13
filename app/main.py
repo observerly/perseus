@@ -1,12 +1,18 @@
 from fastapi import FastAPI
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from fastapi.responses import ORJSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.api_v1.api import api_router
 from app.core.config import settings
 
 app = FastAPI(
-    title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    default_response_class=ORJSONResponse,
 )
+
+app.add_middleware(HTTPSRedirectMiddleware)
 
 
 # Set all CORS enabled origins

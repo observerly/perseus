@@ -1,0 +1,63 @@
+name: perseus/ci
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '__pycache__'
+      - '.pytest_cache'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: CI/CD Build & Test w/pytest
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      PROJECT_NAME: "Perseus FastAPI"
+      FIRST_SUPERUSER_EMAIL: ${{ secrets.FIRST_SUPERUSER_EMAIL }}
+      FIRST_SUPERUSER_PASSWORD: ${{ secrets.FIRST_SUPERUSER_PASSWORD }}
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_SERVER: "db"
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: "postgres"
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      SERVER_NAME: "perseus"
+      SERVER_HOST: "https://perseus.observerly.com"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Environment File
+        run: |
+          touch .env
+          echo PROJECT_NAME=${PROJECT_NAME} > .env
+          echo FIRST_SUPERUSER_EMAIL=${FIRST_SUPERUSER_EMAIL} > .env
+          echo FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD} > .env
+          echo POSTGRES_USER=${POSTGRES_USER} > .env
+          echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} > .env
+          echo POSTGRES_SERVER=${POSTGRES_SERVER} > .env
+          echo POSTGRES_PORT=${POSTGRES_PORT} > .env
+          echo POSTGRES_DB=${POSTGRES_DB} > .env
+          echo SENTRY_DSN=${SENTRY_DSN} > .env
+          echo SERVER_NAME=${SERVER_NAME} > .env
+          echo SERVER_HOST=${SERVER_HOST} > .env
+          cat .env
+
+      - name: Docker Compose Build
+        run: docker compose -f local.yml build --build-arg INSTALL_DEV="true"
+
+      - name: Docker Compose Up
+        run: docker compose -f local.yml up -d
+
+      - name: Docker Compose Bash Exec
+        run: docker compose -f local.yml exec api bash

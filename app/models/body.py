@@ -1,7 +1,8 @@
+import uuid
+
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 from sqlalchemy import Column, Float, String, event
-from sqlalchemy import text as sa_text
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.base_class import Base
@@ -14,14 +15,13 @@ class Body(Base):
     uid = Column(
         UUID(as_uuid=True),
         primary_key=True,
-        server_default=sa_text("uuid_generate_v4()"),
+        default=uuid.uuid4,
     )
 
     # Common Name
     name = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -34,12 +34,11 @@ class Body(Base):
     iau = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="iau",
         comment="IAU Name",
     )
 
@@ -78,7 +77,6 @@ class Body(Base):
     constellation = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -91,7 +89,6 @@ class Body(Base):
     type = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -130,11 +127,11 @@ class Body(Base):
             decimal_return_scale=10,
         ),
         index=False,
-        name="apparent_magnitude",
+        name="absolute_magnitude",
         comment="Absolute Magnitude (M)",
     )
 
-    # Distance to the star (in light years).
+    # Distance to the star (in parsecs).
     d = Column(
         Float(
             precision=5,
@@ -142,8 +139,8 @@ class Body(Base):
             decimal_return_scale=10,
         ),
         index=False,
-        name="apparent_magnitude",
-        comment="Distance (ly)",
+        name="distance",
+        comment="Distance (in parsecs, pc)",
     )
 
     # Henry Draper Catalogue Number:
@@ -154,12 +151,11 @@ class Body(Base):
     hd = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="hd",
         comment="Henry Draper (HD) Catalogue Number",
     )
 
@@ -167,12 +163,11 @@ class Body(Base):
     hr = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="hr",
         comment="Harvard Revised (HR) Catalogue Number",
     )
 
@@ -180,12 +175,11 @@ class Body(Base):
     hip = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="hip",
         comment="Hipparcos (HIP) Catalogue Number",
     )
 
@@ -196,12 +190,11 @@ class Body(Base):
     bd = Column(
         String(
             length=180,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="bd",
         comment="Hipparcos (HIP) Catalogue Number",
     )
 
@@ -215,12 +208,11 @@ class Body(Base):
     flamsteed = Column(
         String(
             length=10,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="flamsteed",
         comment="Flamsteed Catalogue Number",
     )
 
@@ -233,12 +225,11 @@ class Body(Base):
     messier = Column(
         String(
             length=3,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="messier",
         comment="Messier Catalogue Number",
     )
 
@@ -250,12 +241,11 @@ class Body(Base):
     ngc = Column(
         String(
             length=3,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="ngc",
         comment="New General Catalogue (NGC) Number",
     )
 
@@ -267,13 +257,24 @@ class Body(Base):
     ic = Column(
         String(
             length=3,
-            collation="utf8",
             convert_unicode=False,
             unicode_error=None,
         ),
         index=True,
-        name="name",
+        name="ic",
         comment="Indexed Catalogue (IC) Number",
+    )
+
+    #  SIMBAD Search Query URL
+    simbad = Column(
+        String(
+            length=200,
+            convert_unicode=False,
+            unicode_error=None,
+        ),
+        index=False,
+        name="simbad",
+        comment="SIMBAD Search Query URL",
     )
 
 
