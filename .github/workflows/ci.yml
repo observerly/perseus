@@ -37,6 +37,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup Environment File
+        run: |
+          touch .env
+          echo PROJECT_NAME=${PROJECT_NAME} > .env
+          echo FIRST_SUPERUSER_EMAIL=${FIRST_SUPERUSER_EMAIL } > .env
+          echo FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD} > .env
+          echo POSTGRES_USER=${POSTGRES_USER} > .env
+          echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} > .env
+          echo POSTGRES_SERVER=${POSTGRES_SERVER} > .env
+          echo POSTGRES_PORT=${POSTGRES_PORT} > .env
+          echo POSTGRES_DB=${POSTGRES_DB} > .env
+          echo SENTRY_DSN=${SENTRY_DSN} > .env
+          echo SERVER_NAME=${SERVER_NAME} > .env
+          echo SERVER_HOST=${SERVER_HOST} > .env
+          cat .env
+
       - name: Docker Compose Build
         run: docker compose -f local.yml up -d --build
 
