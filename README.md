@@ -55,7 +55,7 @@ mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "docker.loc
 The Perseus stack can then be started with the following `docker` `compose` command:
 
 ```console
-$ docker compose -f local.yml up --build
+$ docker compose -f local.yml up -d --build
 ```
 
 ### Traefik HTTPS Proxy
