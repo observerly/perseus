@@ -50,6 +50,8 @@ services:
       - .:/app
     depends_on:
       - db
+    links:
+      - db:db
     env_file:
       - .env
     labels:
@@ -77,6 +79,8 @@ services:
       - 5432:5432
     env_file:
       - .env
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
     networks:
       - api
 
@@ -88,3 +92,4 @@ networks:
     name: web
   api:
     name: api
+    driver: bridge
