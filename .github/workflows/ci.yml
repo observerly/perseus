@@ -67,3 +67,6 @@ jobs:
 
       - name: Seed Body (Stars, Galaxies etc) Data
         run: docker compose -f local.yml exec api ./scripts/init_db_seed.sh
+
+      - name: Run Pytest Suite
+        run: docker compose -f local.yml exec api pytest
