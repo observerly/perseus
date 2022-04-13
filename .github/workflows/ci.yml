@@ -59,5 +59,8 @@ jobs:
       - name: Docker Compose Up
         run: docker compose -f local.yml up -d
 
-      - name: Docker Compose Bash Exec
-        run: docker compose -f local.yml exec api bash
+      - name: Alembic Upgrade Head (Run Migrations)
+        run: docker compose -f local.yml exec api alembic upgrade head
+
+      - name: Seed Body (Stars, Galaxies etc) Data
+        run: docker compose -f local.yml exec api ./scripts/init_db_seed.sh
