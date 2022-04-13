@@ -52,10 +52,24 @@ Once `mkcert` is installed, you'll need to provision a local private key and cer
 mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
 ```
 
-The Perseus stack can then be started with the following `docker` `compose` command:
+The Perseus development stack can be built with the following `docker` `compose` command, with the `$INSTALL_DEV` build environment argument\*.
 
 ```console
-$ docker compose -f local.yml up -d --build
+$ docker compose -f local.yml build --build-arg INSTALL_DEV="true"
+```
+
+\*This builds the `poetry` initialised python environment with development dependencies (such as pytest) installed.
+
+The Perseus development stack can then be started with:
+
+```console
+$ docker compose -f local.yml up"
+```
+
+If you need a shell inside the running api container, e.g., to run pytest, you can use the following command:
+
+```console
+$ docker compose -f local.yml exec api bash
 ```
 
 ### Traefik HTTPS Proxy
