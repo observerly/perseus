@@ -15,8 +15,8 @@ jobs:
   build:
     name: CI/CD Build & Test w/pytest
     strategy:
-    matrix:
-      os: [ ubuntu-latest ]
+      matrix:
+        os: [ ubuntu-latest ]
 
     runs-on: ${{ matrix.os }}
 
