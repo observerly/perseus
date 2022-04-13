@@ -25,6 +25,7 @@ autoflake = "^1.4"
 isort = "^5.10.1"
 black = "^22.1.0"
 mypy = "^0.931"
+tenacity = "^8.0.1"
 
 [tool.black]
 exclude = '''
