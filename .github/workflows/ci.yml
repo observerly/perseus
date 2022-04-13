@@ -21,6 +21,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
+      INSTALL_DEV: "true"
       PROJECT_NAME: "Perseus FastAPI"
       FIRST_SUPERUSER_EMAIL: ${{ secrets.FIRST_SUPERUSER_EMAIL }}
       FIRST_SUPERUSER_PASSWORD: ${{ secrets.FIRST_SUPERUSER_PASSWORD }}
@@ -37,6 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Setup the environment for "development", with $INSTALL_DEV=true
       - name: Setup Environment File
         run: |
           touch .env
@@ -51,10 +53,11 @@ jobs:
           echo SENTRY_DSN=${SENTRY_DSN} > .env
           echo SERVER_NAME=${SERVER_NAME} > .env
           echo SERVER_HOST=${SERVER_HOST} > .env
+          echo INSTALL_DEV=${INSTALL_DEV} > .env
           cat .env
 
       - name: Docker Compose Build
         run: docker compose -f local.yml up -d --build
 
-      - name: Bash Exec Docker Compose
+      - name: Docker Compose Bash Exec
         run: docker compose -f local.yml exec api bash
