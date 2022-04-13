@@ -59,6 +59,9 @@ jobs:
       - name: Docker Compose Up
         run: docker compose -f local.yml up -d
 
+      - name: Docker Compose Up
+        run: docker compose -f local.yml exec api ./scripts/init_db_pre.sh
+
       - name: Alembic Upgrade Head (Run Migrations)
         run: docker compose -f local.yml exec api alembic upgrade head
 
