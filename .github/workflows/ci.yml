@@ -41,7 +41,7 @@ jobs:
         run: |
           touch .env
           echo PROJECT_NAME=${PROJECT_NAME} > .env
-          echo FIRST_SUPERUSER_EMAIL=${FIRST_SUPERUSER_EMAIL } > .env
+          echo FIRST_SUPERUSER_EMAIL=${FIRST_SUPERUSER_EMAIL} > .env
           echo FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD} > .env
           echo POSTGRES_USER=${POSTGRES_USER} > .env
           echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} > .env
