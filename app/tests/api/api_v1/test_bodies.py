@@ -149,16 +149,16 @@ def test_list_bodies_above_local_observers_horizon(
     page = 1
 
     response = client.get(
-        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=155.8912&date=20210514T00:00:00.000",  # noqa: E501
+        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=155.8912&date=2021-05-14T00:00:00.000",  # noqa: E501
     )
 
     assert response.status_code == 200
 
     body = response.json()
 
-    assert body["count"] == 160
+    assert body["count"] == 146
     assert (
-        "api/v1/bodies/2?limit=20&latitude=19.8968&longitude=155.8912"
+        "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=155.8912&date=2021-05-14T00%3A00%3A00.000"  # noqa: E501,
         in body["next_page"]
     )
     assert body["previous_page"] is None
