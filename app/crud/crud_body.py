@@ -1,4 +1,4 @@
-from typing import List, TypeVar
+from typing import List, Tuple, TypeVar
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
@@ -56,21 +56,17 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         return query
 
-    def get_count(
-        self,
-        db: Session,
-        query_params: QueryParams,
-    ) -> int:
-        query = db.query(self.model)
-        return self.get_filter_query(query, query_params).count()
 
     def get_multi(
         self, db: Session, *, query_params: QueryParams, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
+    ) -> Tuple[List[ModelType], int]:
         query = db.query(self.model)
         # Filter w/Query Params:
         query = self.get_filter_query(query, query_params)
-        return query.offset(skip).limit(limit).all()
+
+        count = query.count()
+
+        return query.offset(skip).limit(limit).all(), count
 
 
 body = CRUDBody(Body)
