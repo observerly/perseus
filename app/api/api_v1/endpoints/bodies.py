@@ -26,9 +26,9 @@ def list_bodies(
 
     start = (page - 1) * query.limit
 
-    count = crud.body.get_count(db)
-
     bodies = crud.body.get_multi(db, query_params=query, skip=start, limit=query.limit)
+
+    count = bodies.count()
 
     return PaginatedResponse.paginate(
         request=req,
@@ -59,9 +59,9 @@ def list_bodies_paginated(
     """
     start = (page - 1) * query.limit
 
-    count = crud.body.get_count(db, query_params=query)
-
     bodies = crud.body.get_multi(db, query_params=query, skip=start, limit=query.limit)
+
+    count = bodies.count()
 
     return PaginatedResponse.paginate(
         request=req,
