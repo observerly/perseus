@@ -1,9 +1,14 @@
+import datetime
+import math
 import uuid
 
 from astropy import units as u
-from astropy.coordinates import SkyCoord
+from astropy.coordinates import EarthLocation, SkyCoord
+from astropy.time import Time
 from sqlalchemy import Column, Float, String, event
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.hybrid import hybrid_method
+from sqlalchemy.sql import func
 
 from app.db.base_class import Base
 
@@ -276,6 +281,65 @@ class Body(Base):
         name="simbad",
         comment="SIMBAD Search Query URL",
     )
+
+    @classmethod
+    def get_LST(cls, date: datetime, latitude: float, longitude: float) -> float:
+        observer = EarthLocation(lat=latitude * u.deg, lon=longitude * u.deg)
+
+        ut = Time(
+            date.astimezone(datetime.timezone.utc),
+            scale="utc",
+            location=observer,
+        )
+
+        return ut.sidereal_time("mean").degree
+
+    # Altitude position angle (degrees):
+
+    def get_altitude(self, LST, latitude) -> float:
+        """
+        Get the altitude of the star.
+
+        :return: Altitude (in degrees)
+        """
+        ha = LST - self.ra
+
+        ra = math.radians(ha)
+
+        dec = math.radians(self.dec)
+
+        lat = math.radians(latitude)
+
+        return math.degrees(
+            math.asin(
+                math.sin(dec) * math.sin(lat)
+                + math.cos(dec) * math.cos(lat) * math.cos(ra)
+            )
+        )
+
+    @hybrid_method
+    def altitude(self, LST: float, latitude: float) -> float:
+        return self.get_altitude(LST, latitude)
+
+    @altitude.expression
+    def altitude(cls, LST, latitude):
+        """
+        Get the altitude of the star as a raw SQL expression
+        """
+        ha = LST - cls.ra
+
+        ra = func.radians(ha)
+
+        dec = func.radians(cls.dec)
+
+        lat = func.radians(latitude)
+
+        return func.degrees(
+            func.asin(
+                func.sin(dec) * func.sin(lat)
+                + func.cos(dec) * func.cos(lat) * func.cos(ra)
+            )
+        )
 
 
 @event.listens_for(Body, "before_update")
