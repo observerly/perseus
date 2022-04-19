@@ -1,3 +1,4 @@
+import datetime
 from typing import List, Tuple, TypeVar
 
 from fastapi.encoders import jsonable_encoder
@@ -25,7 +26,20 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         return db_obj
 
     def get_filter_query(self, query: Query, query_params: QueryParams):
-        # Search Bodies By ra, dec & radius:
+        query = self.perform_equatorial_radial_search_filter(query, query_params)
+
+        query = self.perform_name_search_filter(query, query_params)
+
+        query = self.perform_constellation_search_filter(query, query_params)
+
+        query = self.perform_horizontal_altitude_search_filter(query, query_params)
+
+        return query
+
+    def perform_equatorial_radial_search_filter(
+        self, query: Query, query_params: QueryParams
+    ) -> Query:
+        # Right Ascension & Declination (in degrees):
         ra = getattr(query_params, "ra", None)
 
         dec = getattr(query_params, "dec", None)
@@ -42,12 +56,47 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
                 < radius
             )
 
+        return query
+
+    def perform_horizontal_altitude_search_filter(
+        self, query: Query, query_params: QueryParams
+    ) -> Query:
+        # Date:
+        date = getattr(query_params, "date", None)
+
+        try:
+            date = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f")
+        except (ValueError, TypeError):
+            date = datetime.datetime.now()
+
+        # Latitude & Longitude (in degrees):
+        latitude = getattr(query_params, "latitude", None)
+
+        longitude = getattr(query_params, "longitude", None)
+
+        # Performs a search for the give body above a local altitude of 15 degrees
+        # (above horizon) in the DB:
+        if date and latitude and longitude:
+            LST = self.model.get_LST(date, latitude, longitude)
+
+            query = query.filter(self.model.altitude(LST, latitude) > 15)
+
+        return query
+
+    def perform_name_search_filter(
+        self, query: Query, query_params: QueryParams
+    ) -> Query:
         # Name:
         name = getattr(query_params, "name", None)
 
         if name:
             query = query.filter(self.model.name.op("%")(name))
 
+        return query
+
+    def perform_constellation_search_filter(
+        self, query: Query, query_params: QueryParams
+    ) -> Query:
         # Constellation
         constellation = getattr(query_params, "constellation", None)
 
@@ -55,7 +104,6 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
             query = query.filter(self.model.constellation.op("%")(constellation))
 
         return query
-
 
     def get_multi(
         self, db: Session, *, query_params: QueryParams, skip: int = 0, limit: int = 100
