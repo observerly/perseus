@@ -42,7 +42,8 @@ services:
   api:
     build: .
     command: uvicorn app.main:app --host 0.0.0.0 --port 5000 --reload --workers 1 --ssl-keyfile "./certs/local-key.pem" --ssl-certfile "./certs/local-cert.pem" --ssl-cert-reqs 1
-    container_name: perseus_api
+    image: observerly/perseus:latest
+    container_name: observerly_perseus
     restart: always
     ports:
       - 8001:5000
