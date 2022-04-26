@@ -19,5 +19,8 @@
       "source.organizeImports": true
     },
     "editor.formatOnPaste": false
+  },
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///Users/michael/Developer/observerly/perseus/.github/workflows/deploy.yml"
   }
 }
