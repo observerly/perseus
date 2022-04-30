@@ -15,6 +15,8 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: str
 
+    PROJECT_ENVIRONMENT: str = "development"
+
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
     # e.g: '["http://localhost", "http://localhost:3000", \
     # "http://localhost:8080", "https://api.observerly.com"], \
