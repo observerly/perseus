@@ -1,7 +1,9 @@
+import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.responses import ORJSONResponse
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from app.api.api_v1.api import api_router
 from app.core.config import settings
@@ -23,5 +25,15 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+if settings.PROJECT_ENVIRONMENT == "production":
+    sentry_sdk.init(
+        settings.SENTRY_DSN,
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+    )
+    app.add_middleware(SentryAsgiMiddleware)
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
