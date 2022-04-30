@@ -1,5 +1,5 @@
 import sentry_sdk
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.responses import ORJSONResponse
@@ -13,6 +13,14 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     default_response_class=ORJSONResponse,
 )
+
+
+@app.middleware("http")
+async def add_custom_x_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Perseus-API-Version"] = str(settings.API_VERSION)
+    return response
+
 
 app.add_middleware(HTTPSRedirectMiddleware)
 
