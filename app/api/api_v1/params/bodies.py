@@ -33,3 +33,20 @@ class BodyQueryParams(BaseModel):
         deprecated=True,
     )
 
+    latitude: Optional[float] = Query(
+        default=None,
+        title="The observer's latitude to perform body object search",
+        deprecated=True,
+    )
+
+    longitude: Optional[float] = Query(
+        default=None,
+        title="The observer's latitude to perform body object search",
+        deprecated=True,
+    )
+
+    date: Optional[str] = Query(
+        default=None,
+        title="The observer's local date / datetime  to perform body object search",
+        deprecated=True,
+    )

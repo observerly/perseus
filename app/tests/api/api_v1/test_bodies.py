@@ -141,3 +141,25 @@ def test_list_bodies_within_the_constellation_orion(
     assert body["results"][7]["name"] == "ζ Orionis"
     assert body["results"][8]["name"] == "κ Orionis"
     assert body["results"][9]["name"] == "α Orionis"
+
+
+def test_list_bodies_above_local_observers_horizon(
+    client: TestClient, db: Session
+) -> None:
+    page = 1
+
+    response = client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=155.8912&date=2021-05-14T00:00:00.000",  # noqa: E501
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 146
+    assert (
+        "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=155.8912&date=2021-05-14T00%3A00%3A00.000"  # noqa: E501,
+        in body["next_page"]
+    )
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 20
