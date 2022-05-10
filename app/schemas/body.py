@@ -1,49 +1,137 @@
 from typing import Optional
-from uuid import UUID
+from uuid import UUID, uuid4
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
-# Shared properties
+# Shared properties from Perseus API:
 class BodyBase(BaseModel):
+    """
+    Base model for all astronomical objects, inc. stars, galaxies and nebulae.
+    """
+
     # Unique ID:
-    uid: UUID
+    uid: UUID = Field(
+        default_factory=uuid4,
+        title="Unique ID",
+        description="Unique ID for the astronomical object.",
+    )
     # Common Name:
-    name: str
+    name: str = Field(
+        "",
+        title="Common Name",
+        description="The common name of the astronomical object as defined by \
+            astronomical community standards, e.g., M31 would have a common \
+            name of the Andromeda Galaxy",
+    )
     # IAU Name:
-    iau: str
+    iau: str = Field(
+        "",
+        title="International Astronomical Union Name",
+        description="The common name of the astronomical object as defined by \
+            International Astronomical Union, e.g., the Andromeda Galaxy would \
+            have an IAU name of M31",
+    )
     # Right Ascension
-    ra: Optional[float] = None
+    ra: Optional[float] = Field(
+        None,
+        title="Right Ascension",
+        description="The right ascension, α, of the astronomical object in degrees",
+    )
     # Declination
-    dec: Optional[float] = None
+    dec: Optional[float] = Field(
+        None,
+        title="Declination",
+        description="The declination, δ, of the astronomical object in degrees",
+    )
     # Constellation
-    constellation: str
+    constellation: str = Field(
+        "",
+        title="Constellation",
+        description="The constellation in which the astronomical object is located",
+    )
     # Object Type
-    type: str
+    type: str = Field(
+        "S",
+        title="Object Type",
+        description="The type of astronomical object, please see the documentation \
+            for a list of types",
+    )
     # Apparent Magnitude:
-    m: Optional[float] = None
+    m: Optional[float] = Field(
+        None,
+        title="Apparent Magnitude, m",
+        description="The apparent magnitude of the astronomical object",
+    )
     # Absolute Magnitude:
-    M: Optional[float] = None
+    M: Optional[float] = Field(
+        None,
+        title="Absolute Magnitude, M",
+        description="The absolute magnitude of the astronomical object",
+    )
     # distance
-    d: Optional[float] = None
+    d: Optional[float] = Field(
+        None,
+        title="Distance",
+        description="The distance to the astronomical object in parsecs",
+    )
     # HD Number:
-    hd: Optional[str] = None
+    hd: Optional[str] = Field(
+        None,
+        title="HD Number",
+        description="The Henry Draper catalgoue number",
+    )
     # HR Number:
-    hr: Optional[str] = None
+    hr: Optional[str] = Field(
+        None,
+        title="HR Number",
+        description="The Harvard Revised number",
+    )
     # Hipparcos Number
-    hip: Optional[str] = None
+    hip: Optional[str] = Field(
+        None,
+        title="Hipparcos Number",
+        description="The Hipparcos Survey catalogue number",
+    )
     # BD Number:
-    bd: Optional[str] = None
+    bd: Optional[str] = Field(
+        None,
+        title="BD Number",
+        description="The Bonner-Durchmusterung catalogue number",
+    )
     # Flamsteed Number:
-    flamsteed: Optional[str] = None
+    flamsteed: Optional[str] = Field(
+        None,
+        title="Flamsteed Number",
+        description="The Flamsteed catalogue number",
+    )
     # Messier Number:
-    messier: Optional[str] = None
+    messier: Optional[str] = Field(
+        None,
+        title="Messier Number",
+        description="The Messier catalogue number",
+    )
     # NGC Number:
-    ngc: Optional[str] = None
+    ngc: Optional[str] = Field(
+        None,
+        title="NGC Number",
+        description="The New General Catalogue number",
+    )
     # IC Number:
-    ic: Optional[str] = None
-    # SIMBAD
-    simbad: Optional[str] = None
+    ic: Optional[str] = Field(
+        None,
+        title="IC Number",
+        description="The Index Catalogue number",
+    )
+    # SIMBAD Query URL:
+    simbad: Optional[str] = Field(
+        None,
+        title="SIMBAD Query URL",
+        description="The SIMBAD Query URL of the astronomical object",
+    )
+
+    class Config:
+        title = "Body"
 
 
 # Properties shared by models stored in DB
