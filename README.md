@@ -2,6 +2,38 @@
 
 The python FastAPI of stars, galaxies and other astronomical bodies.
 
+## Guide
+
+All astronomical bodies in the Perseus API are represented by a **`Body`** object. Each body has a **`type`**.
+
+The types match those from the SIMBAD Astronomical Database [http://simbad.u-strasbg.fr/simbad/](http://simbad.u-strasbg.fr/simbad/).
+
+- \*: Star
+- \*\*: Double star
+- \*Ass: Association of stars
+- OCl: Open Cluster
+- GCl: Globular Cluster
+- Cl+N: Star cluster + Nebula
+- G: Galaxy
+- GPair: Galaxy Pair
+- GTrpl: Galaxy Triplet
+- GGroup: Group of galaxies
+- PN: Planetary Nebula
+- HII: HII Ionized region
+- DrkN: Dark Nebula
+- EmN: Emission Nebula
+- Neb: Nebula
+- RfN: Reflection Nebula
+- SNR: Supernova remnant
+- Nova: Nova star
+- NonEx: Nonexistent object
+- Dup: Duplicated object (see NGC or IC columns to find the master object)
+- Other: Other classification (see object notes)
+
+Every body, regardless of type, will have an **`ra`**, Right Ascension (quoted in either in J2000 Epoch (HH:MM:SS.SS), hours, or in degrees), and **`dec`**, declincation (quoted in J2000 Epoch (+/-DD:MM:SS.SS) (in degrees) or in degrees).
+
+Every body, regardless of type, will have a **`constellation`**, which is calculated from the **`ra`** and **`dec`**, using a algorithmic lookup technique pioneered by Nancy Roman.
+
 ## API Development
 
 ### Project Requirements
@@ -115,3 +147,9 @@ $ alembic upgrade head
 ```
 
 **N.B.** _All Alembic model "revisions" (changes) should be committed to source control, so everyone has a consistent database schema history._
+
+## Acknowledgements
+
+This research has made use of the VizieR catalogue access tool, CDS, Strasbourg, France (DOI : [10.26093/cds/vizier](https://vizier.cds.unistra.fr/)).
+
+The original description of the VizieR service was published in 2000, A&AS 143, 23.
