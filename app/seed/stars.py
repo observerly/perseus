@@ -31,7 +31,7 @@ def seed_stars(db: Session, logger: Logger) -> None:
             "ra": float(star["ra"]),
             "dec": float(star["dec"]),
             "constellation": star["constellation"],
-            "type": star["type"],
+            "type": "*",
             "hd": star["hd"],
             "hr": star["hr"],
             "hip": star["hip"],
