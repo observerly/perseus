@@ -9,6 +9,7 @@ def test_all_returns_http_x_headers_correctly(client: TestClient, db: Session) -
 
     response = client.get(
         f"{settings.API_V1_STR}/bodies/{page}",
+        headers={"Host": "perseus.docker.localhost"},
     )
 
     response.headers["X-Perseus-API-Version"] == str(settings.API_VERSION)
