@@ -2,6 +2,7 @@ import sentry_sdk
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import ORJSONResponse
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
@@ -21,6 +22,16 @@ async def add_custom_x_headers(request: Request, call_next):
     response.headers["X-Perseus-API-Version"] = str(settings.API_VERSION)
     return response
 
+
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=[
+        "perseus.docker.localhost",
+        settings.SERVER_HOST,
+        "observerly.com",
+        "*.observerly.com",
+    ],
+)
 
 app.add_middleware(HTTPSRedirectMiddleware)
 
