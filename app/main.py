@@ -15,13 +15,7 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
 )
 
-
-@app.middleware("http")
-async def add_custom_x_headers(request: Request, call_next):
-    response = await call_next(request)
-    response.headers["X-Perseus-API-Version"] = str(settings.API_VERSION)
-    return response
-
+app.router.redirect_slashes = False
 
 app.add_middleware(
     TrustedHostMiddleware,
@@ -56,3 +50,10 @@ if settings.PROJECT_ENVIRONMENT == "production":
     app.add_middleware(SentryAsgiMiddleware)
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.middleware("http")
+async def add_custom_x_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Perseus-API-Version"] = str(settings.API_VERSION)
+    return response

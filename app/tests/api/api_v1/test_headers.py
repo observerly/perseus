@@ -1,17 +1,19 @@
-from fastapi.testclient import TestClient
-from sqlalchemy.orm import Session
+import pytest
+from httpx import AsyncClient
 
 from app.core.config import settings
+from app.main import app
 
 
-def test_all_returns_http_x_headers_correctly(client: TestClient, db: Session) -> None:
+@pytest.mark.anyio
+async def test_all_returns_http_x_headers_correctly() -> None:
     page = 1
 
-    response = client.get(
-        f"{settings.API_V1_STR}/bodies/{page}",
-        headers={"Host": "perseus.docker.localhost"},
-    )
+    async with AsyncClient(app=app, base_url="https://test") as client:
+        response = await client.get(
+            f"{settings.API_V1_STR}/bodies/{page}",
+            headers={"Host": "perseus.docker.localhost"},
+        )
 
-    response.headers["X-Perseus-API-Version"] == str(settings.API_VERSION)
-
-    assert response.status_code == 200
+        assert response.headers["x-perseus-api-version"] == str(settings.API_VERSION)
+        assert response.status_code == 200
