@@ -2,31 +2,28 @@ import pytest
 from httpx import AsyncClient
 
 from app.core.config import settings
-from app.main import app
 
 
-@pytest.mark.anyio
-async def test_list_bodies_returns_http_ok_status() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_returns_http_ok_status(client: AsyncClient) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}",
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}",
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 
 
-@pytest.mark.anyio
-async def test_list_bodies_without_any_query_params() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_without_any_query_params(client: AsyncClient) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}",
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}",
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 
@@ -38,15 +35,14 @@ async def test_list_bodies_without_any_query_params() -> None:
     assert len(body["results"]) == 20
 
 
-@pytest.mark.anyio
-async def test_list_bodies_with_default_radial_search() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_with_default_radial_search(client: AsyncClient) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}?ra=2.294522&dec=59.14978",
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?ra=2.294522&dec=59.14978",
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 
@@ -61,15 +57,14 @@ async def test_list_bodies_with_default_radial_search() -> None:
     assert body["results"][2]["name"] == "α Cassiopeiae"
 
 
-@pytest.mark.anyio
-async def test_list_bodies_with_specific_radial_search() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_with_specific_radial_search(client: AsyncClient) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}?ra=2.294522&dec=59.14978&radius=1.0",
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?ra=2.294522&dec=59.14978&radius=1.0",
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 
@@ -81,15 +76,16 @@ async def test_list_bodies_with_specific_radial_search() -> None:
     assert body["results"][0]["name"] == "β Cassiopeiae"
 
 
-@pytest.mark.anyio
-async def test_list_bodies_with_slightly_less_specific_radial_search() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_with_slightly_less_specific_radial_search(
+    client: AsyncClient,
+) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}?ra=2.294522&dec=59.14978&radius=10.0",
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?ra=2.294522&dec=59.14978&radius=10.0",
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 
@@ -104,15 +100,14 @@ async def test_list_bodies_with_slightly_less_specific_radial_search() -> None:
     assert body["results"][2]["name"] == "α Cassiopeiae"
 
 
-@pytest.mark.anyio
-async def test_list_bodies_with_too_specific_radial_search() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_with_too_specific_radial_search(client: AsyncClient) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}?ra=180&dec=45&radius=0.1",
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?ra=180&dec=45&radius=0.1",
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 
@@ -124,15 +119,14 @@ async def test_list_bodies_with_too_specific_radial_search() -> None:
     assert len(body["results"]) == 0
 
 
-@pytest.mark.anyio
-async def test_list_bodies_within_the_constellation_orion() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_within_the_constellation_orion(client: AsyncClient) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}?constellation=orion",
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?constellation=orion",
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 
@@ -155,15 +149,14 @@ async def test_list_bodies_within_the_constellation_orion() -> None:
     assert body["results"][9]["name"] == "α Orionis"
 
 
-@pytest.mark.anyio
-async def test_list_bodies_above_local_observers_horizon() -> None:
+@pytest.mark.asyncio
+async def test_list_bodies_above_local_observers_horizon(client: AsyncClient) -> None:
     page = 1
 
-    async with AsyncClient(app=app, base_url="https://test") as client:
-        response = await client.get(
-            f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=155.8912&date=2021-05-14T00:00:00.000",  # noqa: E501
-            headers={"Host": "perseus.docker.localhost"},
-        )
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=155.8912&date=2021-05-14T00:00:00.000",  # noqa: E501
+        headers={"Host": "perseus.docker.localhost"},
+    )
 
     assert response.status_code == 200
 

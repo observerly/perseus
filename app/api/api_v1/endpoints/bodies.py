@@ -1,6 +1,8 @@
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Response
+from fastapi_cache.coder import PickleCoder
+from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
@@ -12,11 +14,13 @@ router = APIRouter()
 
 
 @router.get("/", name="bodies:list", response_model=PaginatedResponse[schemas.Body])
-def list_bodies(
+@cache(expire=31556952, namespace="perseus:bodies:list", coder=PickleCoder)
+async def list_bodies(
     req: Request,
+    response: Response,
     *,
     db: Session = Depends(deps.get_db),
-    query: BodyQueryParams = Depends()
+    query: BodyQueryParams = Depends(),
 ) -> Any:
     """
     returns the first page of list of bodies of any type based off of the
@@ -46,12 +50,14 @@ def list_bodies(
     name="bodies:list-paginated",
     response_model=PaginatedResponse[schemas.Body],
 )
-def list_bodies_paginated(
+@cache(expire=31556952, namespace="perseus:bodies:list-paginated", coder=PickleCoder)
+async def list_bodies_paginated(
     req: Request,
+    response: Response,
     *,
     db: Session = Depends(deps.get_db),
     page: Optional[int] = 1,
-    query: BodyQueryParams = Depends()
+    query: BodyQueryParams = Depends(),
 ) -> Any:
     """
     returns a paginated list of bodies of any type based off of the
