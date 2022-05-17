@@ -27,6 +27,8 @@ isort = "^5.10.1"
 black = "^22.1.0"
 mypy = "^0.931"
 tenacity = "^8.0.1"
+httpx = "^0.22.0"
+anyio = {extras = ["trio"], version = "^3.6.1"}
 
 [tool.black]
 exclude = '''
