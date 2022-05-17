@@ -1,9 +1,12 @@
+import aioredis
 import sentry_sdk
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import ORJSONResponse
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from app.api.api_v1.api import api_router
@@ -57,3 +60,9 @@ async def add_custom_x_headers(request: Request, call_next):
     response = await call_next(request)
     response.headers["X-Perseus-API-Version"] = str(settings.API_VERSION)
     return response
+
+
+@app.on_event("startup")
+async def startup():
+    redis = aioredis.from_url("redis://redis", encoding="utf8", decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="perseus-cache")

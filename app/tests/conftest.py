@@ -1,7 +1,9 @@
+from asyncio import get_event_loop
 from typing import Generator
 
 import pytest
-from fastapi.testclient import TestClient
+from asgi_lifespan import LifespanManager
+from httpx import AsyncClient
 
 from app.db.session import SessionLocal
 from app.main import app
@@ -13,6 +15,15 @@ def db() -> Generator:
 
 
 @pytest.fixture(scope="module")
-def client() -> Generator:
-    with TestClient(app) as c:
-        yield c
+async def client() -> Generator:
+    async with AsyncClient(app=app, base_url="https://test") as client, LifespanManager(
+        app
+    ):
+        yield client
+
+
+@pytest.fixture(scope="session")
+def event_loop() -> Generator:
+    loop = get_event_loop()
+    yield loop
+    loop.close()

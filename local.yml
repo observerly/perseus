@@ -53,6 +53,7 @@ services:
       - db
     links:
       - db:db
+      - redis:redis
     env_file:
       - .env
     labels:
@@ -80,6 +81,16 @@ services:
       - 5432:5432
     env_file:
       - .env
+    networks:
+      - api
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    command: redis-server --appendonly yes
+    expose:
+      - 6379
+    restart: always
     networks:
       - api
 
