@@ -1,4 +1,4 @@
-# Perseus API
+![@observerly:perseus](https://user-images.githubusercontent.com/84131395/173381911-b9d8641a-548a-49ca-8b73-052535d708ef.jpg)
 
 The python FastAPI of stars, galaxies and other astronomical bodies.
 
