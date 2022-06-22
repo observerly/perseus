@@ -62,12 +62,12 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         self, query: Query, query_params: QueryParams
     ) -> Query:
         # Date:
-        date = getattr(query_params, "date", None)
+        d = getattr(query_params, "datetime", None)
 
         try:
-            date = datetime.datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f")
+            d = datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%S.%fZ")
         except (ValueError, TypeError):
-            date = datetime.datetime.now()
+            d = datetime.datetime.now()
 
         # Latitude & Longitude (in degrees):
         latitude = getattr(query_params, "latitude", None)
@@ -76,8 +76,8 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         # Performs a search for the give body above a local altitude of 15 degrees
         # (above horizon) in the DB:
-        if date and latitude and longitude:
-            LST = self.model.get_LST(date, latitude, longitude)
+        if d and latitude and longitude:
+            LST = self.model.get_LST(d, latitude, longitude)
 
             query = query.filter(self.model.altitude(LST, latitude) > 15)
 

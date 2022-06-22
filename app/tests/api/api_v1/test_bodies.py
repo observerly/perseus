@@ -154,7 +154,7 @@ async def test_list_bodies_above_local_observers_horizon(client: AsyncClient) ->
     page = 1
 
     response = await client.get(
-        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=155.8912&date=2021-05-14T00:00:00.000",  # noqa: E501
+        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=155.8912&datetime=2021-05-14T00:00:00.000Z",  # noqa: E501
         headers={"Host": "perseus.docker.localhost"},
     )
 
@@ -164,7 +164,7 @@ async def test_list_bodies_above_local_observers_horizon(client: AsyncClient) ->
 
     assert body["count"] == 146
     assert (
-        "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=155.8912&date=2021-05-14T00%3A00%3A00.000"  # noqa: E501,
+        "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=155.8912&datetime=2021-05-14T00%3A00%3A00.000Z"  # noqa: E501,
         in body["next_page"]
     )
     assert body["previous_page"] is None
