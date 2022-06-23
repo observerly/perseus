@@ -30,7 +30,8 @@ app.add_middleware(
     ],
 )
 
-app.add_middleware(HTTPSRedirectMiddleware)
+if settings.HTTPS_REDIRECT:
+    app.add_middleware(HTTPSRedirectMiddleware)
 
 # Set all CORS enabled origins
 if settings.BACKEND_CORS_ORIGINS:
