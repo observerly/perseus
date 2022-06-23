@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     # API version 1 base URL, e.g., "https://perseus.observerly.com/api/v1"
     API_V1_STR: str = "/api/v1"
 
-    API_VERSION: str = "v1.0.0@latest (2020-05-01)"
+    API_VERSION: str = "v1.0.0@latest (2022-06-22)"
 
     SECRET_KEY: str = token_urlsafe(64)
 
