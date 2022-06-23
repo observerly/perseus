@@ -27,6 +27,7 @@ app.add_middleware(
         settings.SERVER_HOST,
         "observerly.com",
         "*.observerly.com",
+        "0.0.0.0",
     ],
 )
 
