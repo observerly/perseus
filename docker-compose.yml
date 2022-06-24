@@ -18,6 +18,8 @@ services:
       - redis:redis
     env_file:
       - .env
+    networks:
+      - api
 
   db:
     image: postgres:14-alpine
@@ -29,6 +31,8 @@ services:
       - 5432:5432
     env_file:
       - .env
+    networks:
+      - api
 
   redis:
     image: redis:alpine
@@ -37,6 +41,13 @@ services:
     expose:
       - 6379
     restart: always
+    networks:
+      - api
 
 volumes:
     postgres_data:
+
+networks:
+  api:
+    name: api
+    driver: bridge
