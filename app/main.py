@@ -4,13 +4,21 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.responses import ORJSONResponse
+from fastapi.responses import ORJSONResponse, RedirectResponse
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from app.api.api_v1.api import api_router
 from app.core.config import settings
+
+API_DESCRIPTION = "\
+Perseus Billion Stars API is observerly's Fast API \
+of stars, galaxies and other astronomical bodies, \
+adhering to the OpenAAS standard.\
+"
+
+API_NAME = "Perseus Billion Stars API by observerly"
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -55,6 +63,21 @@ if settings.PROJECT_ENVIRONMENT == "production":
     app.add_middleware(SentryAsgiMiddleware)
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.get("/")
+async def redirect_index():
+    response = RedirectResponse(url="{0}".format(settings.API_V1_STR))
+    return response
+
+
+@app.get("{0}".format(settings.API_V1_STR))
+async def api_v1_base():
+    return {
+        "description": API_DESCRIPTION,
+        "endpoint": "{0}".format(settings.API_V1_STR),
+        "name": API_NAME,
+    }
 
 
 @app.middleware("http")
