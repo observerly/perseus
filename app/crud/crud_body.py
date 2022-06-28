@@ -3,6 +3,7 @@ from typing import List, Tuple, TypeVar
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
+from sqlalchemy import or_
 from sqlalchemy.orm import Query, Session
 from sqlalchemy.sql import func
 
@@ -90,7 +91,9 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         name = getattr(query_params, "name", None)
 
         if name:
-            query = query.filter(self.model.name.op("%")(name))
+            query = query.filter(
+                or_(self.model.name.op("%")(name), self.model.iau.op("%")(name))
+            )
 
         return query
 

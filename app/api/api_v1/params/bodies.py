@@ -23,6 +23,12 @@ class BodyQueryParams(BaseModel):
         deprecated=True,
     )
 
+    iau: Optional[str] = Query(
+        default=None,
+        title="The IAU's name of the body object to search",
+        deprecated=True,
+    )
+
     name: Optional[str] = Query(
         default=None, title="The name of the body object to search", deprecated=True
     )
