@@ -19,7 +19,7 @@ services:
         # Enable traefik on itself to view dashboard and assign subdomain to view it
         - traefik.enable=false
         # Setting the domain for the dashboard
-        - traefik.http.routers.api.rule=Host("traefik.docker.localhost")
+        - traefik.http.routers.api.rule=Host("traefik.local.observerly.com")
         # Enabling the api to be a service to access
         - traefik.http.routers.api.service=api@internal
     ports:
@@ -62,9 +62,9 @@ services:
       # Enable this container to be mapped by traefik:
       - traefik.enable=true
       # URL to reach this container:
-      - traefik.http.routers.web.rule=Host("perseus.docker.localhost")
+      - traefik.http.routers.web.rule=Host("perseus.local.observerly.com")
       # URL to reach this container for secure traffic:
-      - traefik.http.routers.websecured.rule=Host("perseus.docker.localhost")
+      - traefik.http.routers.websecured.rule=Host("perseus.local.observerly.com")
       # Defining entrypoint for https:
       - traefik.http.routers.websecured.entrypoints=websecured
     networks:
