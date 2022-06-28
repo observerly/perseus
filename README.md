@@ -81,7 +81,7 @@ mkcert -install
 Once `mkcert` is installed, you'll need to provision a local private key and certificate:
 
 ```
-mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
+mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "perseus.local.observerly.com traefik.local.observerly.com"
 ```
 
 The Perseus development stack can be built with the following `docker` `compose` command, with the `$INSTALL_DEV` build environment argument\*.
