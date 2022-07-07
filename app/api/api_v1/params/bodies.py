@@ -56,3 +56,15 @@ class BodyQueryParams(BaseModel):
         title="The observer's local date / datetime  to perform body object search",
         deprecated=True,
     )
+
+    start: Optional[str] = Query(
+        default=None,
+        title="The start date / datetime to perform body object search",
+        deprecated=True,
+    )
+
+    end: Optional[str] = Query(
+        default=None,
+        title="The end date / datetime to perform body object search",
+        deprecated=True,
+    )
