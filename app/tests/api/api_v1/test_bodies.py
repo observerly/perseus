@@ -190,3 +190,51 @@ async def test_list_bodies_above_local_observers_horizon(client: AsyncClient) ->
     )
     assert body["previous_page"] is None
     assert len(body["results"]) == 20
+
+
+@pytest.mark.asyncio
+async def test_list_bodies_above_local_observers_horizon_between_interval_for_20210514(
+    client: AsyncClient,
+) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=-155.8912&start=2021-05-14T18:46:50.000-10:00&end=2021-05-15T05:49:30.000-10:00",  # noqa: E501
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 304
+    assert (
+        "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=-155.8912&start=2021-05-14T18%3A46%3A50.000-10%3A00&end=2021-05-15T05%3A49%3A30.000-10%3A00"  # noqa: E501,
+        in body["next_page"]
+    )
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 20
+
+
+@pytest.mark.asyncio
+async def test_list_bodies_above_local_observers_horizon_between_interval_for_20220101(
+    client: AsyncClient,
+) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?latitude=19.8968&longitude=-155.8912&start=2022-01-01T17:58:56.000-10:00&end=2022-01-02T06:52:13.000-10:00",  # noqa: E501
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 300
+    assert (
+        "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=-155.8912&start=2022-01-01T17%3A58%3A56.000-10%3A00&end=2022-01-02T06%3A52%3A13.000-10%3A00"  # noqa: E501,
+        in body["next_page"]
+    )
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 20
