@@ -65,10 +65,21 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         # Date:
         d = getattr(query_params, "datetime", None)
 
+        start = getattr(query_params, "start", None)
+
+        end = getattr(query_params, "end", None)
+
         try:
-            d = datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%S.%fZ")
+            d = datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%S.%f%z")
         except (ValueError, TypeError):
-            d = datetime.datetime.now()
+            d = None
+
+        try:
+            start = datetime.datetime.strptime(start, "%Y-%m-%dT%H:%M:%S.%f%z")
+            end = datetime.datetime.strptime(end, "%Y-%m-%dT%H:%M:%S.%f%z")
+        except (ValueError, TypeError):
+            start = None
+            end = None
 
         # Latitude & Longitude (in degrees):
         latitude = getattr(query_params, "latitude", None)
@@ -81,6 +92,20 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
             LST = self.model.get_LST(d, latitude, longitude)
 
             query = query.filter(self.model.altitude(LST, latitude) > 15)
+
+        # Performs a search for the give body above a local altitude of 15 degrees
+        # (above horizon) between the given start and end datetime interval in the DB:
+        if start and end and latitude and longitude:
+            LSTr = self.model.get_LST(start, latitude, longitude)
+
+            LSTs = self.model.get_LST(end, latitude, longitude)
+
+            query = query.filter(
+                or_(
+                    self.model.altitude(LSTr, latitude) > 15,
+                    self.model.altitude(LSTs, latitude) > 15,
+                )
+            )
 
         return query
 
