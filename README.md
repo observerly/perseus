@@ -148,8 +148,24 @@ $ alembic upgrade head
 
 **N.B.** _All Alembic model "revisions" (changes) should be committed to source control, so everyone has a consistent database schema history._
 
+## Seeding API Data
+
+Inside the data folder, there comes a number of files that can be used to seed the database before performing consistent tests.
+
+To run the initial database seeding, you can use the following command:
+
+```console
+$ docker compose -f local.yml exec api ./scripts/init_db_seed.sh
+```
+
+This will run the seed scripts in the `scripts` directory, and will seed the database with the data in the `data` directory.
+
+The initial data is a list of major, minor and peripheral stellar bodies as given in the HD-DM-GC-HR-HIP-Bayer-Flamsteed Cross Index (Kostjuk, 2002), which can be found in the VizieR catalogue database here: [VizieR-2](https://vizier.u-strasbg.fr/viz-bin/VizieR-2), and cross-referenced with the IAU list of approved star names (*as of January 1st, 2021), which can be found here: [https://www.iau.org/public/themes/naming_stars/](https://www.iau.org/public/themes/naming_stars/).
+
 ## Acknowledgements
 
 This research has made use of the VizieR catalogue access tool, CDS, Strasbourg, France (DOI : [10.26093/cds/vizier](https://vizier.cds.unistra.fr/)).
 
 The original description of the VizieR service was published in 2000, A&AS 143, 23.
+
+This research has made use of the IAU list of approved star names [https://www.iau.org/public/themes/naming_stars/](https://www.iau.org/public/themes/naming_stars/).
