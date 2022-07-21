@@ -19,9 +19,17 @@ def seed_stars(db: Session, logger: Logger) -> None:
 
     stars = []
 
+    data = []
+
     # Open the majorStars.json file:
     with open("{}/data/stars/majorStars.json".format(ROOT_DIR), "r") as f:
-        data = json.loads(f.read())
+        data += json.loads(f.read())
+
+    with open("{}/data/stars/minorStars.json".format(ROOT_DIR), "r") as f:
+        data += json.loads(f.read())
+
+    with open("{}/data/stars/peripheralStars.json".format(ROOT_DIR), "r") as f:
+        data += json.loads(f.read())
 
     # Read the stars
     for star in data:

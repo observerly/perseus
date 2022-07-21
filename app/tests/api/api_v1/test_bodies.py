@@ -29,7 +29,7 @@ async def test_list_bodies_without_any_query_params(client: AsyncClient) -> None
 
     body = response.json()
 
-    assert body["count"] == 406
+    assert body["count"] == 3767
     assert "/api/v1/bodies/2?limit=20" in body["next_page"]
     assert body["previous_page"] is None
     assert len(body["results"]) == 20
@@ -48,7 +48,7 @@ async def test_list_bodies_with_default_radial_search(client: AsyncClient) -> No
 
     body = response.json()
 
-    assert body["count"] == 3
+    assert body["count"] == 11
     assert body["next_page"] is None
     assert body["previous_page"] is None
 
@@ -112,7 +112,7 @@ async def test_list_bodies_with_slightly_less_specific_radial_search(
 
     body = response.json()
 
-    assert body["count"] == 3
+    assert body["count"] == 11
     assert body["next_page"] is None
     assert body["previous_page"] is None
 
@@ -153,10 +153,13 @@ async def test_list_bodies_within_the_constellation_orion(client: AsyncClient) -
 
     body = response.json()
 
-    assert body["count"] == 10
-    assert body["next_page"] is None
+    assert body["count"] == 85
+    assert (
+        "https://perseus.docker.localhost/api/v1/bodies/2?limit=20&constellation=orion"
+        in body["next_page"]
+    )
     assert body["previous_page"] is None
-    assert len(body["results"]) == 10
+    assert len(body["results"]) == 20
 
     assert body["results"][1]["name"] == "α Orionis"
     assert body["results"][0]["name"] == "β Orionis"
@@ -167,7 +170,7 @@ async def test_list_bodies_within_the_constellation_orion(client: AsyncClient) -
     assert body["results"][7]["name"] == "ι Orionis"
     assert body["results"][5]["name"] == "κ Orionis"
     assert body["results"][8]["name"] == "π³ Orionis"
-    assert body["results"][9]["name"] == "λ Orionis"
+    assert body["results"][9]["name"] == "η Orionis"
 
 
 @pytest.mark.asyncio
@@ -183,7 +186,7 @@ async def test_list_bodies_above_local_observers_horizon(client: AsyncClient) ->
 
     body = response.json()
 
-    assert body["count"] == 146
+    assert body["count"] == 1493
     assert (
         "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=155.8912&datetime=2021-05-14T00%3A00%3A00.000Z"  # noqa: E501,
         in body["next_page"]
@@ -207,7 +210,7 @@ async def test_list_bodies_above_local_observers_horizon_between_interval_for_20
 
     body = response.json()
 
-    assert body["count"] == 304
+    assert body["count"] == 2739
     assert (
         "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=-155.8912&start=2021-05-14T18%3A46%3A50.000-10%3A00&end=2021-05-15T05%3A49%3A30.000-10%3A00"  # noqa: E501,
         in body["next_page"]
@@ -231,7 +234,7 @@ async def test_list_bodies_above_local_observers_horizon_between_interval_for_20
 
     body = response.json()
 
-    assert body["count"] == 300
+    assert body["count"] == 2717
     assert (
         "/api/v1/bodies/2?limit=20&latitude=19.8968&longitude=-155.8912&start=2022-01-01T17%3A58%3A56.000-10%3A00&end=2022-01-02T06%3A52%3A13.000-10%3A00"  # noqa: E501,
         in body["next_page"]
