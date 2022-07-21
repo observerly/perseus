@@ -52,9 +52,9 @@ async def test_list_bodies_with_default_radial_search(client: AsyncClient) -> No
     assert body["next_page"] is None
     assert body["previous_page"] is None
 
-    assert body["results"][0]["name"] == "β Cassiopeiae"
-    assert body["results"][1]["name"] == "ζ Cassiopeiae"
-    assert body["results"][2]["name"] == "α Cassiopeiae"
+    assert body["results"][0]["name"] == "α Cassiopeiae"
+    assert body["results"][1]["name"] == "β Cassiopeiae"
+    assert body["results"][2]["name"] == "ζ Cassiopeiae"
 
 
 @pytest.mark.asyncio
@@ -116,9 +116,9 @@ async def test_list_bodies_with_slightly_less_specific_radial_search(
     assert body["next_page"] is None
     assert body["previous_page"] is None
 
-    assert body["results"][0]["name"] == "β Cassiopeiae"
-    assert body["results"][1]["name"] == "ζ Cassiopeiae"
-    assert body["results"][2]["name"] == "α Cassiopeiae"
+    assert body["results"][0]["name"] == "α Cassiopeiae"
+    assert body["results"][1]["name"] == "β Cassiopeiae"
+    assert body["results"][2]["name"] == "ζ Cassiopeiae"
 
 
 @pytest.mark.asyncio
@@ -158,16 +158,16 @@ async def test_list_bodies_within_the_constellation_orion(client: AsyncClient) -
     assert body["previous_page"] is None
     assert len(body["results"]) == 10
 
-    assert body["results"][0]["name"] == "π³ Orionis"
-    assert body["results"][1]["name"] == "β Orionis"
+    assert body["results"][1]["name"] == "α Orionis"
+    assert body["results"][0]["name"] == "β Orionis"
     assert body["results"][2]["name"] == "γ Orionis"
-    assert body["results"][3]["name"] == "δ Orionis"
-    assert body["results"][4]["name"] == "λ Orionis"
-    assert body["results"][5]["name"] == "ι Orionis"
-    assert body["results"][6]["name"] == "ε Orionis"
-    assert body["results"][7]["name"] == "ζ Orionis"
-    assert body["results"][8]["name"] == "κ Orionis"
-    assert body["results"][9]["name"] == "α Orionis"
+    assert body["results"][6]["name"] == "δ Orionis"
+    assert body["results"][3]["name"] == "ε Orionis"
+    assert body["results"][4]["name"] == "ζ Orionis"
+    assert body["results"][7]["name"] == "ι Orionis"
+    assert body["results"][5]["name"] == "κ Orionis"
+    assert body["results"][8]["name"] == "π³ Orionis"
+    assert body["results"][9]["name"] == "λ Orionis"
 
 
 @pytest.mark.asyncio

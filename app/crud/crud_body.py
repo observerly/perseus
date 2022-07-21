@@ -142,7 +142,9 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         count = query.count()
 
-        return query.offset(skip).limit(limit).all(), count
+        # Here we are ordering by apparent magnitude (mag) in descending order because
+        # negative magnitudes are actually "brighter" than positive magnitudes:
+        return query.order_by(self.model.m).offset(skip).limit(limit).all(), count
 
 
 body = CRUDBody(Body)
