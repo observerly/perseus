@@ -26,7 +26,7 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
 )
 
-app.router.redirect_slashes = False
+app.router.redirect_slashes = True
 
 app.add_middleware(
     TrustedHostMiddleware,
