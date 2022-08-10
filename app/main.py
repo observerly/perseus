@@ -67,7 +67,7 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 async def redirect_index():
-    response = RedirectResponse(url="{0}".format(settings.API_V1_STR))
+    response = RedirectResponse(url="{0}".format(settings.API_V1_STR), status_code=302)
     return response
 
 
