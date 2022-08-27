@@ -2,6 +2,8 @@
 
 The python FastAPI of stars, galaxies and other astronomical bodies.
 
+---
+
 ## Guide
 
 All astronomical bodies in the Perseus API are represented by a **`Body`** object. Each body has a **`type`**.
@@ -33,6 +35,8 @@ The types match those from the SIMBAD Astronomical Database [http://simbad.u-str
 Every body, regardless of type, will have an **`ra`**, Right Ascension (quoted in either in J2000 Epoch (HH:MM:SS.SS), hours, or in degrees), and **`dec`**, declincation (quoted in J2000 Epoch (+/-DD:MM:SS.SS) (in degrees) or in degrees).
 
 Every body, regardless of type, will have a **`constellation`**, which is calculated from the **`ra`** and **`dec`**, using a algorithmic lookup technique pioneered by Nancy Roman.
+
+---
 
 ## API Development
 
@@ -148,7 +152,7 @@ $ alembic upgrade head
 
 **N.B.** _All Alembic model "revisions" (changes) should be committed to source control, so everyone has a consistent database schema history._
 
-## Seeding API Data
+### Seeding API Data
 
 Inside the data folder, there comes a number of files that can be used to seed the database before performing consistent tests.
 
@@ -161,6 +165,34 @@ $ docker compose -f local.yml exec api ./scripts/init_db_seed.sh
 This will run the seed scripts in the `scripts` directory, and will seed the database with the data in the `data` directory.
 
 The initial data is a list of major, minor and peripheral stellar bodies as given in the HD-DM-GC-HR-HIP-Bayer-Flamsteed Cross Index (Kostjuk, 2002), which can be found in the VizieR catalogue database here: [VizieR-2](https://vizier.u-strasbg.fr/viz-bin/VizieR-2), and cross-referenced with the IAU list of approved star names (*as of January 1st, 2021), which can be found here: [https://www.iau.org/public/themes/naming_stars/](https://www.iau.org/public/themes/naming_stars/).
+
+### Running Tests
+
+To run the tests, please ensure you have followed the steps for building the development server:
+
+The Perseus development stack can be built with the following `docker` `compose` command, with the `$INSTALL_DEV` build environment argument\*.
+
+```console
+$ docker compose -f local.yml build --build-arg INSTALL_DEV="true"
+```
+
+You'll need to ensure that you have also run any migrations you'll need, as well as seed the data:
+
+```console
+$ docker compose -f local.yml exec api alembic upgrade head
+```
+
+```console
+$ docker compose -f local.yml exec api ./scripts/init_db_seed.sh
+```
+
+You can then run the pytest suite using the following command:
+
+```
+$ docker compose -f local.yml exec api pytest
+```
+
+---
 
 ## Acknowledgements
 
