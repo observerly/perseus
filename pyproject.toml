@@ -6,7 +6,7 @@ authors = ["Michael Roberts <michael@observerly.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.73.0"
+fastapi = "0.81.0"
 uvicorn = {extras = ["standard"], version = "^0.18.2"}
 pydantic = "^1.9.0"
 email-validator = "^1.1.3"
