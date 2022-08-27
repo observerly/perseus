@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "perseus"
 version = "0.1.0"
-description = ""
+description = "observerly's FastAPI of stars, galaxies and other astronomical bodies, adhering to the OpenAAS standard."
 authors = ["Michael Roberts <michael@observerly.com>"]
 
 [tool.poetry.dependencies]
