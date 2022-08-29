@@ -245,7 +245,7 @@ class Body(Base):
     # star clusters and emission nebulae.
     ngc = Column(
         String(
-            length=3,
+            length=12,
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -261,7 +261,7 @@ class Body(Base):
     # which remain in widespread use.
     ic = Column(
         String(
-            length=3,
+            length=12,
             convert_unicode=False,
             unicode_error=None,
         ),

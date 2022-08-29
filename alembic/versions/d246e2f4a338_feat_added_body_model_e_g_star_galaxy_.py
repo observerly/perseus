@@ -1,8 +1,8 @@
 """feat: Added Body model (e.g., Star, Galaxy, Nebulae etc.)
 
-Revision ID: bd1edfc58cf6
+Revision ID: d246e2f4a338
 Revises: 
-Create Date: 2022-04-13 12:40:45.599340
+Create Date: 2022-08-29 14:45:24.960549
 
 """
 import sqlalchemy as sa
@@ -11,7 +11,7 @@ from sqlalchemy.dialects import postgresql
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "bd1edfc58cf6"
+revision = "d246e2f4a338"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -106,13 +106,13 @@ def upgrade():
         ),
         sa.Column(
             "ngc",
-            sa.String(length=3),
+            sa.String(length=12),
             nullable=True,
             comment="New General Catalogue (NGC) Number",
         ),
         sa.Column(
             "ic",
-            sa.String(length=3),
+            sa.String(length=12),
             nullable=True,
             comment="Indexed Catalogue (IC) Number",
         ),
@@ -156,4 +156,4 @@ def downgrade():
     op.drop_index(op.f("ix_body_constellation"), table_name="body")
     op.drop_index(op.f("ix_body_bd"), table_name="body")
     op.drop_table("body")
-    # ### end Alembic commands ###
+    # ### end Alembic commands ###root@504aaea6537f:/usr/src/app/alembic/versions#
