@@ -73,11 +73,3 @@ def seed_stars(db: Session, logger: Logger) -> None:
     # Read the stars incrementally into the db:
 
     logger.info("Populated Initial API w/{} Stars".format(count))
-
-
-def seed_galaxies(db: Session, logger: Logger) -> None:
-    pass
-
-
-def seed_nebulae(db: Session, logger: Logger) -> None:
-    pass
