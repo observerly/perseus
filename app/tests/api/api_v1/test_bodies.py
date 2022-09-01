@@ -161,16 +161,26 @@ async def test_list_bodies_within_the_constellation_orion(client: AsyncClient) -
     assert body["previous_page"] is None
     assert len(body["results"]) == 20
 
-    assert body["results"][1]["name"] == "α Orionis"
-    assert body["results"][0]["name"] == "β Orionis"
-    assert body["results"][2]["name"] == "γ Orionis"
-    assert body["results"][6]["name"] == "δ Orionis"
-    assert body["results"][3]["name"] == "ε Orionis"
-    assert body["results"][4]["name"] == "ζ Orionis"
-    assert body["results"][7]["name"] == "ι Orionis"
-    assert body["results"][5]["name"] == "κ Orionis"
-    assert body["results"][8]["name"] == "π³ Orionis"
-    assert body["results"][9]["name"] == "η Orionis"
+    assert body["results"][0]["name"] == "Great Orion Nebula"
+    assert body["results"][1]["name"] == "Casper the Friendly Ghost Nebula"
+    assert body["results"][2]["name"] == "Da Mairan's Nebula"
+    assert body["results"][3]["name"] == "β Orionis"
+    assert body["results"][4]["name"] == "α Orionis"
+    assert body["results"][5]["name"] == "γ Orionis"
+    assert body["results"][9]["name"] == "δ Orionis"
+    assert body["results"][6]["name"] == "ε Orionis"
+    assert body["results"][7]["name"] == "ζ Orionis"
+    assert body["results"][10]["name"] == "ι Orionis"
+    assert body["results"][8]["name"] == "κ Orionis"
+    assert body["results"][11]["name"] == "π³ Orionis"
+    assert body["results"][12]["name"] == "η Orionis"
+    assert body["results"][13]["name"] == "λ Orionis"
+    assert body["results"][14]["name"] == "τ Orionis"
+    assert body["results"][15]["name"] == "π⁴ Orionis"
+    assert body["results"][16]["name"] == "ζ Orionis"
+    assert body["results"][17]["name"] == "π⁵ Orionis"
+    assert body["results"][18]["name"] == "σ Orionis"
+    assert body["results"][19]["name"] == "ο² Orionis"
 
 
 @pytest.mark.asyncio
