@@ -3,7 +3,7 @@ from typing import List, Tuple, TypeVar
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from sqlalchemy import or_
+from sqlalchemy import case, or_
 from sqlalchemy.orm import Query, Session
 from sqlalchemy.sql import func
 
@@ -133,12 +133,37 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         return query
 
+    def perform_order_by_type(self, query: Query) -> Query:
+        whens = {
+            "Other": 4,
+            "*": 3,
+            "**": 3,
+            "*Ass": 3,
+            "OCl": 2,
+            "GCl": 2,
+            "G": 1,
+            "Cl+N": 0,
+            "PN": 0,
+            "HII": 0,
+            "DrkN": 0,
+            "EmN": 0,
+            "Neb": 0,
+            "RfN": 0,
+            "SNR": 0,
+        }
+
+        sort = case(value=Body.type, whens=whens).label("type")
+
+        return query.order_by(sort)
+
     def get_multi(
         self, db: Session, *, query_params: QueryParams, skip: int = 0, limit: int = 100
     ) -> Tuple[List[ModelType], int]:
         query = db.query(self.model)
         # Filter w/Query Params:
         query = self.get_filter_query(query, query_params)
+
+        query = self.perform_order_by_type(query)
 
         count = query.count()
 
