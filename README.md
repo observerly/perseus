@@ -42,6 +42,7 @@ Every body, regardless of type, will have a **`constellation`**, which is calcul
 
 ### Project Requirements
 
+- [Python](https://www.python.org/) 3.11.*
 - [Docker](https://www.docker.com/).
 - [Docker Compose](https://docs.docker.com/compose/install/).
 - [Poetry](https://python-poetry.org/) for Python package and environment management.
