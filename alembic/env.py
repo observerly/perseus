@@ -1,6 +1,5 @@
 from __future__ import with_statement
 
-import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
@@ -32,19 +31,7 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    user = os.getenv("POSTGRES_USER", "postgres")
-    password = os.getenv("POSTGRES_PASSWORD", "")
-    server = os.getenv("POSTGRES_SERVER", "db")
-    db = os.getenv("POSTGRES_DB", "app")
-    port = os.getenv("POSTGRES_PORT", "5432")
-    ssl = os.getenv("POSTGRES_SSL", "false")
-
-    url = f"postgresql://{user}:{password}@{server}:{port}/{db}"
-
-    if ssl == "true":
-        return f"{url}?sslmode=require"
-
-    return url
+    return "sqlite:///./perseus.db.sqlite3"
 
 
 def run_migrations_offline():

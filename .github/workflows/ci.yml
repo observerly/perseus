@@ -24,11 +24,6 @@ jobs:
       PROJECT_NAME: "Perseus FastAPI"
       FIRST_SUPERUSER_EMAIL: ${{ secrets.FIRST_SUPERUSER_EMAIL }}
       FIRST_SUPERUSER_PASSWORD: ${{ secrets.FIRST_SUPERUSER_PASSWORD }}
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_SERVER: "db"
-      POSTGRES_PORT: "5432"
-      POSTGRES_DB: "postgres"
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       SERVER_NAME: "perseus"
       SERVER_HOST: "https://perseus.observerly.com"
@@ -43,11 +38,6 @@ jobs:
           echo PROJECT_NAME=${PROJECT_NAME} >> .env
           echo FIRST_SUPERUSER_EMAIL=${FIRST_SUPERUSER_EMAIL} >> .env
           echo FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD} >> .env
-          echo POSTGRES_USER=${POSTGRES_USER} >> .env
-          echo POSTGRES_PASSWORD=${POSTGRES_PASSWORD} >> .env
-          echo POSTGRES_SERVER=${POSTGRES_SERVER} >> .env
-          echo POSTGRES_PORT=${POSTGRES_PORT} >> .env
-          echo POSTGRES_DB=${POSTGRES_DB} >> .env
           echo SENTRY_DSN=${SENTRY_DSN} >> .env
           echo SERVER_NAME=${SERVER_NAME} >> .env
           echo SERVER_HOST=${SERVER_HOST} >> .env

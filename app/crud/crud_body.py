@@ -117,7 +117,7 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         if name:
             query = query.filter(
-                or_(self.model.name.op("%")(name), self.model.iau.op("%")(name))
+                or_(self.model.name.op("LIKE")(name), self.model.iau.op("LIKE")(name))
             )
 
         return query
@@ -129,7 +129,7 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         constellation = getattr(query_params, "constellation", None)
 
         if constellation:
-            query = query.filter(self.model.constellation.op("%")(constellation))
+            query = query.filter(self.model.constellation.op("LIKE")(constellation))
 
         return query
 
@@ -167,9 +167,15 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         count = query.count()
 
-        # Here we are ordering by apparent magnitude (mag) in descending order because
+        # Here we are ordering by apparent magnitude (mag) in ascending order because
         # negative magnitudes are actually "brighter" than positive magnitudes:
-        return query.order_by(self.model.m).offset(skip).limit(limit).all(), count
+        return (
+            query.order_by(func.coalesce(Body.m, 99999).asc())
+            .offset(skip)
+            .limit(limit)
+            .all(),
+            count,
+        )
 
 
 body = CRUDBody(Body)

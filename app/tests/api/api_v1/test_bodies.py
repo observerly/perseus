@@ -177,8 +177,8 @@ async def test_list_bodies_within_the_constellation_orion(client: AsyncClient) -
     assert body["results"][13]["name"] == "λ Orionis"
     assert body["results"][14]["name"] == "τ Orionis"
     assert body["results"][15]["name"] == "π⁴ Orionis"
-    assert body["results"][16]["name"] == "ζ Orionis"
-    assert body["results"][17]["name"] == "π⁵ Orionis"
+    assert body["results"][16]["name"] == "π⁵ Orionis"
+    assert body["results"][17]["name"] == "ζ Orionis"
     assert body["results"][18]["name"] == "σ Orionis"
     assert body["results"][19]["name"] == "ο² Orionis"
 
