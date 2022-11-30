@@ -10,25 +10,12 @@ services:
     ports:
       - 8001:5000
     volumes: 
-      - .:/app
+      - ./:/usr/src/app
     depends_on:
       - db
     links:
       - db:db
       - redis:redis
-    env_file:
-      - .env
-    networks:
-      - api
-
-  db:
-    image: postgres:14-alpine
-    container_name: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-      - ./scripts/init_pgtrgm_extension.sql:/docker-entrypoint-initdb.d/init_pgtrgm_extension.sql
-    ports:
-      - 5432:5432
     env_file:
       - .env
     networks:
@@ -43,9 +30,6 @@ services:
     restart: always
     networks:
       - api
-
-volumes:
-    postgres_data:
 
 networks:
   api:

@@ -6,7 +6,6 @@ from astropy import units as u
 from astropy.coordinates import EarthLocation, SkyCoord
 from astropy.time import Time
 from sqlalchemy import Column, Float, String, event
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.hybrid import hybrid_method
 from sqlalchemy.sql import func
 
@@ -15,12 +14,16 @@ from app.db.base_class import Base
 FRAME = "icrs"
 
 
+def generate_uuid():
+    return str(uuid.uuid4())
+
+
 class Body(Base):
     # UID as primary key
     uid = Column(
-        UUID(as_uuid=True),
+        String,
         primary_key=True,
-        default=uuid.uuid4,
+        default=generate_uuid,
     )
 
     # Common Name
