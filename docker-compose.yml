@@ -11,10 +11,7 @@ services:
       - 8001:5000
     volumes: 
       - ./:/usr/src/app
-    depends_on:
-      - db
     links:
-      - db:db
       - redis:redis
     env_file:
       - .env
