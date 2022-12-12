@@ -251,3 +251,48 @@ async def test_list_bodies_above_local_observers_horizon_between_interval_for_20
     )
     assert body["previous_page"] is None
     assert len(body["results"]) == 20
+
+
+@pytest.mark.asyncio
+async def test_list_bodies_constellation_visible_in_summer_at_southern_hemisphere(
+    client: AsyncClient,
+) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?constellation=orion&latitude=-50.503632&longitude=-4.652498&datetime=2021-07-01T10:00:00.000Z",  # noqa: E501
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 88
+    assert (
+        "https://perseus.docker.localhost/api/v1/bodies/2?limit=20&constellation=orion&latitude=-50.503632&longitude=-4.652498&datetime=2021-07-01T10%3A00%3A00.000Z"  # noqa: E501
+        in body["next_page"]
+    )
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 20
+
+
+@pytest.mark.asyncio
+async def test_list_bodies_constellation_not_visible_in_summer_at_northern_hemisphere(
+    client: AsyncClient,
+) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?constellation=orion&latitude=50.503632&longitude=-4.652498&datetime=2021-07-01T00:00:00.000Z",  # noqa: E501
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 0
+    assert body["next_page"] is None
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 0
