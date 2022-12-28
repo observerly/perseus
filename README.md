@@ -167,6 +167,17 @@ This will run the seed scripts in the `scripts` directory, and will seed the dat
 
 The initial data is a list of major, minor and peripheral stellar bodies as given in the HD-DM-GC-HR-HIP-Bayer-Flamsteed Cross Index (Kostjuk, 2002), which can be found in the VizieR catalogue database here: [VizieR-2](https://vizier.u-strasbg.fr/viz-bin/VizieR-2), and cross-referenced with the IAU list of approved star names (*as of January 1st, 2021), which can be found here: [https://www.iau.org/public/themes/naming_stars/](https://www.iau.org/public/themes/naming_stars/).
 
+### Flushing API Data
+
+To flush the database, you can use the following command:
+
+```console
+$ docker compose -f local.yml exec api ./scripts/init_db_flush.sh
+```
+
+This will run the flush scripts in the `scripts` directory, and will flush the database of all data.
+
+
 ### Running Tests
 
 To run the tests, please ensure you have followed the steps for building the development server:
