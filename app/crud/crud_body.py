@@ -177,5 +177,9 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
             count,
         )
 
+    def delete_multi(self, db: Session) -> None:
+        db.query(self.model).delete()
+        db.commit()
+
 
 body = CRUDBody(Body)
