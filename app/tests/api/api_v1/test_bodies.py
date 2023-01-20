@@ -79,6 +79,27 @@ async def test_list_bodies_with_the_name_betelgeuse(client: AsyncClient) -> None
 
 
 @pytest.mark.asyncio
+async def test_list_bodies_with_the_partial_name_betel(client: AsyncClient) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?name=bete",
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 1
+    assert body["next_page"] is None
+    assert body["previous_page"] is None
+
+    assert body["results"][0]["name"] == "α Orionis"
+    assert body["results"][0]["iau"] == "Betelgeuse"
+
+
+@pytest.mark.asyncio
 async def test_list_bodies_with_specific_radial_search(client: AsyncClient) -> None:
     page = 1
 
