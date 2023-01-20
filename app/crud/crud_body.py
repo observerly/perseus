@@ -117,7 +117,10 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         if name:
             query = query.filter(
-                or_(self.model.name.op("LIKE")(name), self.model.iau.op("LIKE")(name))
+                or_(
+                    self.model.name.op("LIKE")("%{0}%".format(name)),
+                    self.model.iau.op("LIKE")("%{0}%".format(name)),
+                )
             )
 
         return query
