@@ -132,7 +132,12 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         constellation = getattr(query_params, "constellation", None)
 
         if constellation:
-            query = query.filter(self.model.constellation.op("LIKE")(constellation))
+            query = query.filter(
+                or_(
+                    self.model.constellation.op("LIKE")("%{0}%".format(constellation)),
+                    self.model.constellation.op("%")("%{0}%".format(constellation)),
+                )
+            )
 
         return query
 
