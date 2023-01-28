@@ -33,6 +33,8 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         query = self.perform_constellation_search_filter(query, query_params)
 
+        query = self.perform_catalogue_search_filter(query, query_params)
+
         query = self.perform_horizontal_altitude_search_filter(query, query_params)
 
         return query
@@ -137,6 +139,38 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
                     self.model.constellation.op("LIKE")("%{0}%".format(constellation)),
                     self.model.constellation.op("%")("%{0}%".format(constellation)),
                 )
+            )
+
+        return query
+
+    def perform_catalogue_search_filter(
+        self, query: Query, query_params: QueryParams
+    ) -> Query:
+        # Catalogue
+        catalogue = getattr(query_params, "catalogue", None)
+
+        # If no catalogue is specified, return all:
+        if not catalogue or catalogue == "all":
+            return query
+
+        # Otherwise, filter by the given catalogue:
+
+        # Messier:
+        if catalogue.strip().lower() == "messier":
+            query = query.filter(
+                self.model.messier.isnot(None),
+            )
+
+        # New General Catalogue:
+        if catalogue.strip().lower() == "ngc":
+            query = query.filter(
+                self.model.ngc.isnot(None),
+            )
+
+        # Index Catalogue:
+        if catalogue.strip().lower() == "ic":
+            query = query.filter(
+                self.model.ic.isnot(None),
             )
 
         return query

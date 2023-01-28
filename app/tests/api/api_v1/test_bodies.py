@@ -250,6 +250,30 @@ async def test_list_bodies_within_the_partial_constellation_ori(
 
 
 @pytest.mark.asyncio
+async def test_list_bodies_within_a_specific_catalogue(client: AsyncClient) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?catalogue=Messier",
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 110
+
+    assert (
+        "https://perseus.docker.localhost/api/v1/bodies/2?limit=20&catalogue=Messier"
+        in body["next_page"]
+    )
+
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 20
+
+
+@pytest.mark.asyncio
 async def test_list_bodies_above_local_observers_horizon(client: AsyncClient) -> None:
     page = 1
 
