@@ -117,13 +117,48 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         # Name:
         name = getattr(query_params, "name", None)
 
-        if name:
-            query = query.filter(
-                or_(
-                    self.model.name.op("LIKE")("%{0}%".format(name)),
-                    self.model.iau.op("LIKE")("%{0}%".format(name)),
-                )
+        if not name:
+            return query
+
+        # If the name starts with "M", then we need to
+        # filter by the Messier catalogue:
+        if (
+            name.lower().strip().startswith("m")
+            and len(name) >= 2
+            and name[1:].isdigit()
+        ):
+            return query.filter(
+                self.model.messier.op("LIKE")("%{0}%".format(name[1:])),
             )
+
+        # If the name starts with "NGC", then we need to
+        # filter by the New General catalogue:
+        if (
+            name.lower().strip().startswith("ngc")
+            and len(name) >= 4
+            and name[3:].isdigit()
+        ):
+            return query.filter(
+                self.model.ngc.op("LIKE")("%{0}%".format(name[3:])),
+            )
+
+        # If the name starts with "IC", then we need to
+        # filter by the Index catalogue:
+        if (
+            name.lower().strip().startswith("ic")
+            and len(name) >= 3
+            and name[2:].isdigit()
+        ):
+            return query.filter(
+                self.model.ic.op("LIKE")("%{0}%".format(name[2:])),
+            )
+
+        query = query.filter(
+            or_(
+                self.model.name.op("LIKE")("%{0}%".format(name)),
+                self.model.iau.op("LIKE")("%{0}%".format(name)),
+            )
+        )
 
         return query
 
