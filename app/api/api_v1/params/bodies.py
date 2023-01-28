@@ -68,3 +68,9 @@ class BodyQueryParams(BaseModel):
         title="The end date / datetime to perform body object search",
         deprecated=True,
     )
+
+    catalogue: Optional[str] = Query(
+        default=None,
+        title="The catalogue of the body object to search",
+        deprecated=True,
+    )
