@@ -33,6 +33,8 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         query = self.perform_constellation_search_filter(query, query_params)
 
+        query = self.perform_type_search_filter(query, query_params)
+
         query = self.perform_catalogue_search_filter(query, query_params)
 
         query = self.perform_horizontal_altitude_search_filter(query, query_params)
@@ -174,6 +176,19 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
                     self.model.constellation.op("LIKE")("%{0}%".format(constellation)),
                     self.model.constellation.op("%")("%{0}%".format(constellation)),
                 )
+            )
+
+        return query
+
+    def perform_type_search_filter(
+        self, query: Query, query_params: QueryParams
+    ) -> Query:
+        # Type
+        type = getattr(query_params, "type", None)
+
+        if type:
+            query = query.filter(
+                self.model.type.op("LIKE")("{0}".format(type)),
             )
 
         return query

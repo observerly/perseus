@@ -271,6 +271,60 @@ async def test_list_bodies_within_the_partial_constellation_ori(
 
 
 @pytest.mark.asyncio
+async def test_list_bodies_with_the_type_G(client: AsyncClient) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?type=G",
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 40
+
+    assert (
+        "https://perseus.docker.localhost/api/v1/bodies/2?limit=20&type=G"
+        in body["next_page"]
+    )
+
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 20
+
+    assert body["results"][0]["name"] == "Andromeda Galaxy"
+    assert body["results"][1]["name"] == "Triangulum Galaxy"
+    assert body["results"][2]["name"] == "Bode's Galaxy"
+    assert body["results"][3]["name"] == "Southern Pinwheel Galaxy"
+    assert body["results"][4]["name"] == "Pinwheel Galaxy"
+    assert body["results"][5]["name"] == "Sombrero Galaxy"
+
+
+@pytest.mark.asyncio
+async def test_list_bodies_with_the_type_HII(client: AsyncClient) -> None:
+    page = 1
+
+    response = await client.get(
+        f"{settings.API_V1_STR}/bodies/{page}?type=HII",
+        headers={"Host": "perseus.docker.localhost"},
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["count"] == 3
+    assert body["next_page"] is None
+    assert body["previous_page"] is None
+    assert len(body["results"]) == 3
+
+    assert body["results"][0]["name"] == "Great Orion Nebula"
+    assert body["results"][1]["name"] == "Casper the Friendly Ghost Nebula"
+    assert body["results"][2]["name"] == "Da Mairan's Nebula"
+
+
+@pytest.mark.asyncio
 async def test_list_bodies_within_a_specific_catalogue(client: AsyncClient) -> None:
     page = 1
 
