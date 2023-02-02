@@ -1,8 +1,8 @@
 """feat: Added Body model (e.g., Star, Galaxy, Nebulae etc.)
 
-Revision ID: a7e7624ae9a6
+Revision ID: 6c37d2f9f30b
 Revises: 
-Create Date: 2023-02-02 14:16:08.403149
+Create Date: 2023-02-02 14:28:20.145119
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a7e7624ae9a6'
+revision = '6c37d2f9f30b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -39,6 +39,7 @@ def upgrade():
     sa.Column('ic', sa.String(length=12), nullable=True, comment='Indexed Catalogue (IC) Number'),
     sa.Column('eccentricity', sa.Float(precision=5, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Eccentricity (e)'),
     sa.Column('semi_major_axis', sa.Float(precision=5, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Semi-major axis (a)'),
+    sa.Column('semi_minor_axis', sa.Float(precision=5, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Semi-minor axis (b)'),
     sa.Column('simbad', sa.String(length=200), nullable=True, comment='SIMBAD Search Query URL'),
     sa.PrimaryKeyConstraint('uid')
     )

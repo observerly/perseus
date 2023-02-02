@@ -129,10 +129,17 @@ class BodyBase(BaseModel):
         title="Eccentricity",
         description="The eccentricity of the astronomical object (unitless)",
     )
+    # Semi-major Axis:
     a: Optional[float] = Field(
         None,
         title="Semi-major Axis",
         description="The semi-major axis of the astronomical object in arcminutes",
+    )
+    # Semi-minor Axis:
+    b: Optional[float] = Field(
+        None,
+        title="Semi-minor Axis",
+        description="The semi-minor axis of the astronomical object in arcminutes",
     )
     # SIMBAD Query URL:
     simbad: Optional[str] = Field(
@@ -203,6 +210,8 @@ class BodyCreate(BaseModel):
     e: Optional[float] = None
     # Semi-major Axis:
     a: Optional[float] = None
+    # Semi-minor Axis:
+    b: Optional[float] = None
     # SIMBAD
     simbad: Optional[str] = None
 
