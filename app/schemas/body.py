@@ -123,6 +123,12 @@ class BodyBase(BaseModel):
         title="IC Number",
         description="The Index Catalogue number",
     )
+    # Eccentricity:
+    e: Optional[float] = Field(
+        None,
+        title="Eccentricity",
+        description="The eccentricity of the astronomical object (unitless)",
+    )
     # SIMBAD Query URL:
     simbad: Optional[str] = Field(
         None,
@@ -188,6 +194,8 @@ class BodyCreate(BaseModel):
     ngc: Optional[str] = None
     # IC Number:
     ic: Optional[str] = None
+    # Eccentricity:
+    e: Optional[float] = None
     # SIMBAD
     simbad: Optional[str] = None
 

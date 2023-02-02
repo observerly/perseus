@@ -273,6 +273,18 @@ class Body(Base):
         comment="Indexed Catalogue (IC) Number",
     )
 
+    # The Body's eccentricity (unitless):
+    e = Column(
+        Float(
+            precision=5,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="eccentricity",
+        comment="Eccentricity (e)",
+    )
+
     #  SIMBAD Search Query URL
     simbad = Column(
         String(
