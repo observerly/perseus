@@ -297,6 +297,18 @@ class Body(Base):
         comment="Semi-major axis (a)",
     )
 
+    # The Body's Semi-minor axis (arcminutes):
+    b = Column(
+        Float(
+            precision=5,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="semi_minor_axis",
+        comment="Semi-minor axis (b)",
+    )
+
     #  SIMBAD Search Query URL
     simbad = Column(
         String(
