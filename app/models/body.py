@@ -285,6 +285,18 @@ class Body(Base):
         comment="Eccentricity (e)",
     )
 
+    # The Body's Semi-major axis (arcminutes):
+    a = Column(
+        Float(
+            precision=5,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="semi_major_axis",
+        comment="Semi-major axis (a)",
+    )
+
     #  SIMBAD Search Query URL
     simbad = Column(
         String(
