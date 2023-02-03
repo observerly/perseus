@@ -309,6 +309,18 @@ class Body(Base):
         comment="Semi-minor axis (b)",
     )
 
+    # The Body's inclination (degrees):
+    i = Column(
+        Float(
+            precision=5,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="inclination",
+        comment="Inclination (i)",
+    )
+
     #  SIMBAD Search Query URL
     simbad = Column(
         String(

@@ -141,6 +141,13 @@ class BodyBase(BaseModel):
         title="Semi-minor Axis",
         description="The semi-minor axis of the astronomical object in arcminutes",
     )
+    # Inclination:
+    i: Optional[float] = Field(
+        None,
+        title="Inclination",
+        description="The inclination relative to the ecliptic \
+            of the astronomical object in degrees",
+    )
     # SIMBAD Query URL:
     simbad: Optional[str] = Field(
         None,
@@ -212,6 +219,8 @@ class BodyCreate(BaseModel):
     a: Optional[float] = None
     # Semi-minor Axis:
     b: Optional[float] = None
+    # Inclination:
+    i: Optional[float] = None
     # SIMBAD
     simbad: Optional[str] = None
 
