@@ -321,6 +321,18 @@ class Body(Base):
         comment="Inclination (i)",
     )
 
+    # The body's redshift (unitless):
+    z = Column(
+        Float(
+            precision=5,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="redshift",
+        comment="Redshift (z)",
+    )
+
     #  SIMBAD Search Query URL
     simbad = Column(
         String(

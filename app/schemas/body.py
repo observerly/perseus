@@ -148,6 +148,12 @@ class BodyBase(BaseModel):
         description="The inclination relative to the ecliptic \
             of the astronomical object in degrees",
     )
+    # Redshift
+    z: Optional[float] = Field(
+        None,
+        title="Redshift",
+        description="The redshift of the astronomical object",
+    )
     # SIMBAD Query URL:
     simbad: Optional[str] = Field(
         None,
@@ -221,6 +227,8 @@ class BodyCreate(BaseModel):
     b: Optional[float] = None
     # Inclination:
     i: Optional[float] = None
+    # Redshift
+    z: Optional[float] = None
     # SIMBAD
     simbad: Optional[str] = None
 
