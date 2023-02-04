@@ -1,8 +1,8 @@
 """feat: Added Body model (e.g., Star, Galaxy, Nebulae etc.)
 
-Revision ID: f3b35e23e6d7
+Revision ID: 60bc843ba6b5
 Revises: 
-Create Date: 2023-02-03 13:12:46.606928
+Create Date: 2023-02-04 14:19:48.678978
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f3b35e23e6d7'
+revision = '60bc843ba6b5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,9 @@ def upgrade():
     sa.Column('name', sa.String(length=180), nullable=True, comment='Common or IAU Name'),
     sa.Column('iau', sa.String(length=180), nullable=True, comment='IAU Name'),
     sa.Column('ra', sa.Float(precision=10, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Right Ascension of the central point of the Body'),
+    sa.Column('μra', sa.Float(precision=10, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Proper Motion in Right Ascension (mas/yr)'),
     sa.Column('dec', sa.Float(precision=10, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Declination of the central point of the Body'),
+    sa.Column('μdec', sa.Float(precision=10, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Proper Motion in Declination (mas/yr)'),
     sa.Column('constellation', sa.String(length=180), nullable=True, comment='IAU Constellation (Contained Within)'),
     sa.Column('type', sa.String(length=180), nullable=True, comment='Celestial Body Type e.g., Star, Spiral Galaxy etc'),
     sa.Column('apparent_magnitude', sa.Float(precision=5, asdecimal=True, decimal_return_scale=10), nullable=True, comment='Apparent Magnitude (m)'),
