@@ -38,11 +38,25 @@ class BodyBase(BaseModel):
         title="Right Ascension",
         description="The right ascension, α, of the astronomical object in degrees",
     )
+    # Proper Motion in Right Ascension
+    μra: Optional[float] = Field(
+        None,
+        title="Proper Motion in Right Ascension",
+        description="The proper motion in right ascension of the astronomical \
+            object in milliarcseconds per year",
+    )
     # Declination
     dec: Optional[float] = Field(
         None,
         title="Declination",
         description="The declination, δ, of the astronomical object in degrees",
+    )
+    # Proper Motion in Declination
+    μdec: Optional[float] = Field(
+        None,
+        title="Proper Motion in Declination",
+        description="The proper motion in declination of the astronomical \
+            object in milliarcseconds per year",
     )
     # Constellation
     constellation: str = Field(

@@ -65,6 +65,18 @@ class Body(Base):
         comment="Right Ascension of the central point of the Body",
     )
 
+    # Proper Motion in Right Ascension (mas/yr)
+    μra = Column(
+        Float(
+            precision=10,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="μra",
+        comment="Proper Motion in Right Ascension (mas/yr)",
+    )
+
     # Declination (abbreviated dec; symbol δ) is one of the two angles that
     # locate a point on the celestial sphere in the equatorial coordinate system,
     # the other being hour angle. Declination's angle is measured north or south
@@ -79,6 +91,18 @@ class Body(Base):
         name="dec",
         index=False,
         comment="Declination of the central point of the Body",
+    )
+
+    # Proper Motion in Declination (mas/yr)
+    μdec = Column(
+        Float(
+            precision=10,
+            asdecimal=True,
+            decimal_return_scale=10,
+        ),
+        index=False,
+        name="μdec",
+        comment="Proper Motion in Declination (mas/yr)",
     )
 
     # Constellation (Contained Within)
