@@ -28,6 +28,24 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
 
         return self.create(db, body), True
 
+    def merge_or_create(
+        self, db: Session, body: BodyCreate, **kwargs
+    ) -> Tuple[Body, bool]:
+        db_obj, created = self.get_or_create(db, body, **kwargs)
+
+        if not created:
+            # Update only the fields that are not None in the
+            # body object, but are None in the db_obj:
+            body_data = jsonable_encoder(body)
+
+            for field in body_data:
+                if body_data[field] is not None and getattr(db_obj, field) is None:
+                    setattr(db_obj, field, body_data[field])
+
+            db.add(db_obj)
+
+        return db_obj, created
+
     def create(self, db: Session, body: BodyCreate) -> Body:
         body_data = jsonable_encoder(body)
         db_obj = Body(**body_data)
