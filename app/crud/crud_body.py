@@ -18,6 +18,21 @@ QueryParams = TypeVar("QueryParams", bound=BaseModel)
 
 
 class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
+    def get_or_create(
+        self, db: Session, body: BodyCreate, **kwargs
+    ) -> Tuple[Body, bool]:
+        db_obj = db.query(Body).filter_by(**kwargs).first()
+
+        if db_obj:
+            return db_obj, False
+
+        body_data = jsonable_encoder(body)
+        db_obj = Body(**body_data)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj, True
+
     def create(self, db: Session, body: BodyCreate) -> Body:
         body_data = jsonable_encoder(body)
         db_obj = Body(**body_data)
