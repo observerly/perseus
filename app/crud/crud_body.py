@@ -26,12 +26,7 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         if db_obj:
             return db_obj, False
 
-        body_data = jsonable_encoder(body)
-        db_obj = Body(**body_data)
-        db.add(db_obj)
-        db.commit()
-        db.refresh(db_obj)
-        return db_obj, True
+        return self.create(db, body), True
 
     def create(self, db: Session, body: BodyCreate) -> Body:
         body_data = jsonable_encoder(body)
