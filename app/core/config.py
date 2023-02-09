@@ -1,5 +1,5 @@
 from secrets import token_urlsafe
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Literal, Optional, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
 
@@ -24,16 +24,8 @@ class Settings(BaseSettings):
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
     # e.g: '["http://localhost", "http://localhost:3000", \
     # "http://localhost:8080", "https://api.observerly.com"], \
-    # "https://perseus.observerly.com"'
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
-        "https://app.observerly.com",
-        "https://vega.observerly.com",
-        "https://observerly.com",
-    ]
-
-    if PROJECT_ENVIRONMENT == "development":
-        for i in range(3000, 8000):
-            BACKEND_CORS_ORIGINS.append("http://localhost:{0}".format(i))
+    # "https://perseus.observerly.com]"':
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl | Literal["*"]] = ["*"]
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
