@@ -43,6 +43,14 @@ class Settings(BaseSettings):
             return v
         return "sqlite:///./perseus.db.sqlite3"
 
+    REDIS_DSN: Optional[str] = None
+
+    @validator("REDIS_DSN", pre=True)
+    def assemble_redis_dsn(cls, v: str, values: Dict[str, Any]) -> str:
+        if isinstance(v, str):
+            return v
+        return "redis://redis"
+
     SENTRY_DSN: Optional[HttpUrl]
 
     @validator("SENTRY_DSN", pre=True)
