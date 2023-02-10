@@ -89,5 +89,10 @@ async def add_custom_x_headers(request: Request, call_next):
 
 @app.on_event("startup")
 async def startup():
-    redis = aioredis.from_url("redis://redis", encoding="utf8", decode_responses=True)
-    FastAPICache.init(RedisBackend(redis), prefix="perseus-cache")
+    try:
+        redis = aioredis.from_url(
+            settings.REDIS_DSN, encoding="utf8", decode_responses=True
+        )
+        FastAPICache.init(RedisBackend(redis), prefix="perseus-cache")
+    except Exception as e:
+        print(e)
