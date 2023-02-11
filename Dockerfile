@@ -20,6 +20,11 @@ RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; els
 
 COPY . /usr/src/app
 
-EXPOSE 5000
-
+# Set the PYTHONPATH environment variable:
 ENV PYTHONPATH=/usr/src/app
+
+# Set the PORT environment variable:
+ENV PORT 5000
+
+# Exposes port 8983 because our program listens on that port
+EXPOSE 5000
