@@ -45,6 +45,9 @@ services:
     image: observerly/perseus:latest
     container_name: observerly_perseus
     restart: always
+    depends_on:
+      - db
+      - redis
     ports:
       - 8001:5000
     volumes: 
@@ -68,6 +71,23 @@ services:
       - web
       - api
 
+  db: 
+    image: mysql
+    container_name: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - web
+
   redis:
     image: redis:alpine
     container_name: redis
@@ -77,6 +97,10 @@ services:
     restart: always
     networks:
       - api
+
+volumes:
+  db:
+    driver: local
 
 networks:
   web:

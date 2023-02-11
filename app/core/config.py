@@ -1,7 +1,21 @@
 from secrets import token_urlsafe
 from typing import Any, Dict, List, Literal, Optional, Union
 
-from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, validator
+from pydantic import AnyHttpUrl, AnyUrl, BaseSettings, EmailStr, HttpUrl, validator
+
+
+class MySQLDsn(AnyUrl):
+    allowed_schemes = [
+        "mysql",
+        "mysql+mysqlconnector",
+        "mysql+aiomysql",
+        "mysql+asyncmy",
+        "mysql+mysqldb",
+        "mysql+pymysql",
+        "mysql+cymysql",
+        "mysql+pyodbc",
+    ]
+    default_port = 3306
 
 
 class Settings(BaseSettings):
@@ -35,13 +49,26 @@ class Settings(BaseSettings):
             return v
         raise ValueError(v)
 
+    MYSQL_USER: str
+    MYSQL_PASSWORD: str
+    MYSQL_HOST: str
+    MYSQL_PORT: str = "3306"
+    MYSQL_DATABASE: str
+
     SQLALCHEMY_DATABASE_URI: Optional[str] = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
         if isinstance(v, str):
             return v
-        return "sqlite:///./perseus.db.sqlite3"
+        return MySQLDsn.build(
+            scheme="mysql+pymysql",
+            user=values.get("MYSQL_USER"),
+            password=values.get("MYSQL_PASSWORD"),
+            host=values.get("MYSQL_HOST"),
+            port=values.get("MYSQL_PORT"),
+            path=f"/{values.get('MYSQL_DATABASE') or ''}",
+        )
 
     REDIS_DSN: Optional[str] = None
 
