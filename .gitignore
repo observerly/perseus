@@ -135,3 +135,6 @@ dmypy.json
 
 # Ignore those pesky Mac generated DS_Store files!
 .DS_Store
+
+# Ignore cloud.config file:
+cloud.config
