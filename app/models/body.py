@@ -21,7 +21,7 @@ def generate_uuid():
 class Body(Base):
     # UID as primary key
     uid = Column(
-        String,
+        String(36),
         primary_key=True,
         default=generate_uuid,
     )
@@ -182,7 +182,7 @@ class Body(Base):
     # of the sky.
     hd = Column(
         String(
-            length=180,
+            length=12,
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -194,7 +194,7 @@ class Body(Base):
     # Harvard Revised Catalogue Number
     hr = Column(
         String(
-            length=180,
+            length=12,
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -206,7 +206,7 @@ class Body(Base):
     # Hipparcos Catalogue Number
     hip = Column(
         String(
-            length=180,
+            length=12,
             convert_unicode=False,
             unicode_error=None,
         ),
@@ -221,7 +221,7 @@ class Body(Base):
     # Germany from 1859 to 1903.
     bd = Column(
         String(
-            length=180,
+            length=12,
             convert_unicode=False,
             unicode_error=None,
         ),

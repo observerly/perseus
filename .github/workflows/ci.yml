@@ -24,6 +24,12 @@ jobs:
       PROJECT_NAME: "Perseus FastAPI"
       FIRST_SUPERUSER_EMAIL: ${{ secrets.FIRST_SUPERUSER_EMAIL }}
       FIRST_SUPERUSER_PASSWORD: ${{ secrets.FIRST_SUPERUSER_PASSWORD }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_HOST: "db"
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       SERVER_NAME: "perseus"
       SERVER_HOST: "https://perseus.observerly.com"
@@ -38,6 +44,12 @@ jobs:
           echo PROJECT_NAME=${PROJECT_NAME} >> .env
           echo FIRST_SUPERUSER_EMAIL=${FIRST_SUPERUSER_EMAIL} >> .env
           echo FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD} >> .env
+          echo MYSQL_USER=${MYSQL_USER} >> .env
+          echo MYSQL_PASSWORD=${MYSQL_PASSWORD} >> .env
+          echo MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} >> .env
+          echo MYSQL_HOST=${MYSQL_HOST} >> .env
+          echo MYSQL_PORT=${MYSQL_PORT} >> .env
+          echo MYSQL_DATABASE=${MYSQL_DATABASE} >> .env
           echo SENTRY_DSN=${SENTRY_DSN} >> .env
           echo SERVER_NAME=${SERVER_NAME} >> .env
           echo SERVER_HOST=${SERVER_HOST} >> .env

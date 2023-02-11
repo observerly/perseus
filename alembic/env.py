@@ -1,5 +1,6 @@
 from __future__ import with_statement
 
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
@@ -31,7 +32,19 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    return "sqlite:///./perseus.db.sqlite3"
+    user = os.getenv("MYSQL_USER", "mysql")
+    password = os.getenv("MYSQL_PASSWORD", "mysql")
+    host = os.getenv("MYSQL_HOST", "db")
+    db = os.getenv("MYSQL_DB", "perseus")
+    port = os.getenv("MYSQL_PORT", "3306")
+    ssl = os.getenv("MYSQL_SSL", "false")
+
+    url = f"mysql+pymysql://{user}:{password}@{host}:{port}/{db}"
+
+    if ssl == "true":
+        return f"{url}?sslmode=require"
+
+    return url
 
 
 def run_migrations_offline():
