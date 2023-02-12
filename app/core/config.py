@@ -1,5 +1,6 @@
 from secrets import token_urlsafe
 from typing import Any, Dict, List, Literal, Optional, Union
+from urllib.parse import urlparse
 
 from pydantic import AnyHttpUrl, AnyUrl, BaseSettings, EmailStr, HttpUrl, validator
 
@@ -69,6 +70,14 @@ class Settings(BaseSettings):
             port=values.get("MYSQL_PORT"),
             path=f"/{values.get('MYSQL_DATABASE') or ''}",
         )
+
+    CLOUDRUN_SERVICE_URL: Optional[str] = None
+
+    @validator("CLOUDRUN_SERVICE_URL", pre=True)
+    def assemble_cloudrun_service_url(cls, v: Optional[str]) -> Optional[str]:
+        if isinstance(v, str):
+            return urlparse(v).netloc
+        return None
 
     REDIS_DSN: Optional[str] = None
 
