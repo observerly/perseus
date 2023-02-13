@@ -23,7 +23,7 @@ steps:
         --allow-unauthenticated \
         --port=8103 \
         --set-env-vars "API_VERSION_LATEST=v1" \
-        --set-env-vars "PORT=5000"
+        --set-env-vars "PORT=5000" \
         --set-env-vars "PROJECT_NAME=$_PROJECT_NAME" \
         --set-env-vars "PROJECT_ENVIRONMENT=$_PROJECT_ENVIRONMENT" \
         --set-env-vars "USE_CLOUD_SQL=$_USE_CLOUD_SQL" \
