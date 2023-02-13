@@ -1,11 +1,9 @@
 from __future__ import with_statement
 
-import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, pool
-
 from alembic import context
+from app.db.session import engine
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -31,20 +29,8 @@ target_metadata = Base.metadata
 # ... etc.
 
 
-def get_url():
-    user = os.getenv("MYSQL_USER", "mysql")
-    password = os.getenv("MYSQL_PASSWORD", "mysql")
-    host = os.getenv("MYSQL_HOST", "db")
-    db = os.getenv("MYSQL_DB", "perseus")
-    port = os.getenv("MYSQL_PORT", "3306")
-    ssl = os.getenv("MYSQL_SSL", "false")
-
-    url = f"mysql+pymysql://{user}:{password}@{host}:{port}/{db}"
-
-    if ssl == "true":
-        return f"{url}?sslmode=require"
-
-    return url
+def get_url() -> str:
+    return engine.url.render_as_string()
 
 
 def run_migrations_offline():
@@ -70,15 +56,7 @@ def run_migrations_online():
     In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = get_url()
-    connectable = engine_from_config(
-        configuration,
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
-
-    with connectable.connect() as connection:
+    with engine.connect() as connection:
         context.configure(
             connection=connection, target_metadata=target_metadata, compare_type=True
         )
