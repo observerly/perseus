@@ -6,6 +6,7 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import ORJSONResponse, RedirectResponse
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.coder import PickleCoder
 from redis import asyncio as aioredis
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
@@ -88,10 +89,13 @@ async def add_custom_x_headers(request: Request, call_next):
 
 @app.on_event("startup")
 async def startup():
-    try:
+    if settings.REDIS_DSN:
         redis = aioredis.from_url(
             settings.REDIS_DSN, encoding="utf8", decode_responses=True
         )
-        FastAPICache.init(RedisBackend(redis), prefix="perseus-cache")
-    except Exception as e:
-        print(e)
+        FastAPICache.init(
+            RedisBackend(redis),
+            prefix="perseus-cache",
+            expire=31556952,
+            coder=PickleCoder,
+        )

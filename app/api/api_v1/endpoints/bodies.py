@@ -1,8 +1,6 @@
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, Request, Response
-from fastapi_cache.coder import PickleCoder
-from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
@@ -14,7 +12,6 @@ router = APIRouter()
 
 
 @router.get("/", name="bodies:list", response_model=PaginatedResponse[schemas.Body])
-@cache(expire=31556952, namespace="perseus:bodies:list", coder=PickleCoder)
 async def list_bodies(
     req: Request,
     response: Response,
@@ -50,7 +47,6 @@ async def list_bodies(
     name="bodies:list-paginated",
     response_model=PaginatedResponse[schemas.Body],
 )
-@cache(expire=31556952, namespace="perseus:bodies:list-paginated", coder=PickleCoder)
 async def list_bodies_paginated(
     req: Request,
     response: Response,
