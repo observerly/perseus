@@ -28,14 +28,7 @@ app = FastAPI(
 
 app.router.redirect_slashes = True
 
-ALLOWED_HOSTS = [
-    "perseus.docker.localhost",
-    settings.SERVER_HOST,
-    "observerly.com",
-    "*.observerly.com",
-    "perseus.observerly.com",
-    "0.0.0.0",
-]
+ALLOWED_HOSTS = ["*"]
 
 if settings.CLOUDRUN_SERVICE_URL:
     ALLOWED_HOSTS.append(settings.CLOUDRUN_SERVICE_URL)
