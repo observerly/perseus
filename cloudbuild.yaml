@@ -19,15 +19,14 @@ steps:
         --image=us.gcr.io/$PROJECT_ID/$_IMAGE_NAME:$SHORT_SHA \
         --region=$_REGION_NAME \
         --platform managed \
-        --add-cloudsql-instances $PROJECT_ID:$_REGION:$_INSTANCE_NAME \
         --allow-unauthenticated \
+        --add-cloudsql-instances $PROJECT_ID:$_REGION_NAME:$_INSTANCE_NAME \
         --port=5000 \
         --set-env-vars "API_VERSION_LATEST=v1" \
-        --set-env-vars "PORT=5000" \
         --set-env-vars "PROJECT_NAME=$_PROJECT_NAME" \
         --set-env-vars "PROJECT_ENVIRONMENT=$_PROJECT_ENVIRONMENT" \
         --set-env-vars "USE_CLOUD_SQL=$_USE_CLOUD_SQL" \
-        --set-env-vars "MYSQL_INSTANCE_CONNECTION_NAME=$PROJECT_ID:$_REGION:$_INSTANCE_NAME" \
+        --set-env-vars "MYSQL_INSTANCE_CONNECTION_NAME=$PROJECT_ID:$_REGION_NAME:$_INSTANCE_NAME" \
         --set-env-vars "MYSQL_USER=$_MYSQL_USER" \
         --set-env-vars "MYSQL_PASSWORD=$_MYSQL_PASSWORD" \
         --set-env-vars "MYSQL_DATABASE=$_MYSQL_DATABASE" \
@@ -36,7 +35,7 @@ steps:
         --set-env-vars "SERVER_NAME=$_SERVER_NAME" \
         --set-env-vars "SERVER_HOST=$_SERVER_HOST" \
         --set-env-vars "FIRST_SUPERUSER_EMAIL=$_FIRST_SUPERUSER_EMAIL" \
-        --set-env-vars "FIRST_SUPERUSER_PASSWORD=$_FIRST_SUPERUSER_PASSWORD" \
+        --set-env-vars "FIRST_SUPERUSER_PASSWORD=$_FIRST_SUPERUSER_PASSWORD"
 
 substitutions:
   # Service specific env vars:
