@@ -21,6 +21,7 @@ fastapi-cache2 = {extras = ["redis"], version = "^0.1.8"}
 redis = "^4.0.2"
 pymysql = "^1.0.2"
 cryptography = "^39.0.1"
+cloud-sql-python-connector = {extras = ["pymysql"], version = "^1.1.0"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
