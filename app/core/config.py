@@ -86,10 +86,10 @@ class Settings(BaseSettings):
     REDIS_DSN: Optional[str] = None
 
     @validator("REDIS_DSN", pre=True)
-    def assemble_redis_dsn(cls, v: str, values: Dict[str, Any]) -> str:
+    def assemble_redis_dsn(cls, v: str, values: Dict[str, Any]) -> Optional[str]:
         if isinstance(v, str):
             return v
-        return "redis://redis"
+        return None
 
     SENTRY_DSN: Optional[HttpUrl]
 
