@@ -52,9 +52,11 @@ class Settings(BaseSettings):
 
     MYSQL_USER: str
     MYSQL_PASSWORD: str
-    MYSQL_HOST: str
+    MYSQL_HOST: str = "db"
     MYSQL_PORT: str = "3306"
     MYSQL_DATABASE: str
+    MYSQL_INSTANCE_CONNECTION_NAME: str
+    MYSQL_PRIVATE_IP: Optional[bool] = False
 
     SQLALCHEMY_DATABASE_URI: Optional[str] = None
 
@@ -70,6 +72,8 @@ class Settings(BaseSettings):
             port=values.get("MYSQL_PORT"),
             path=f"/{values.get('MYSQL_DATABASE') or ''}",
         )
+
+    USE_CLOUD_SQL: Optional[bool] = False
 
     CLOUDRUN_SERVICE_URL: Optional[str] = None
 
