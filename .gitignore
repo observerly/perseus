@@ -138,3 +138,6 @@ dmypy.json
 
 # Ignore cloud.config file:
 cloud.config
+
+# Ignore .config directory:
+.config
