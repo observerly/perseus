@@ -31,7 +31,7 @@ steps:
         --set-env-vars "MYSQL_DATABASE=$_MYSQL_DATABASE" \
         --set-env-vars "MYSQL_PRIVATE_IP=$_MYSQL_PRIVATE_IP" \
         --set-env-vars "SENTRY_DSN=$_SENTRY_DSN" \
-        --set-env-vars "SENTRY_NAME=$_SENTRY_NAME" \
+        --set-env-vars "SERVER_NAME=$_SERVER_NAME" \
         --set-env-vars "SERVER_HOST=$_SERVER_HOST" \
         --set-env-vars "FIRST_SUPERUSER_EMAIL=$_FIRST_SUPERUSER_EMAIL" \
         --set-env-vars "FIRST_SUPERUSER_PASSWORD=$_FIRST_SUPERUSER_PASSWORD" \
@@ -41,7 +41,7 @@ substitutions:
   _PROJECT_NAME: 'Perseus FastAPI'
   _PROJECT_ENVIRONMENT: 'production'
   _SENTRY_DSN: ''
-  _SENTRY_NAME: ''
+  _SERVER_NAME: ''
   _SERVER_HOST: ''
   # Cloud MySQL specific env vars:
   _USE_CLOUD_SQL: 'true'
