@@ -57,7 +57,7 @@ class PaginatedResponse(GenericModel, Generic[T]):
     ) -> Optional[str]:
         next_page = cls.get_next_page(current_page, count, limit)
         if next_page:
-            return request.url_for(name=name, page=next_page)
+            return request.url_for(name, page=next_page)
         return None
 
     @classmethod
@@ -66,7 +66,7 @@ class PaginatedResponse(GenericModel, Generic[T]):
     ) -> Optional[str]:
         previous_page = cls.get_previous_page(current_page, count, limit)
         if previous_page:
-            return request.url_for(name=name, page=previous_page)
+            return request.url_for(name, page=previous_page)
         return None
 
     @classmethod
