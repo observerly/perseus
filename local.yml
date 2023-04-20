@@ -41,7 +41,7 @@ services:
 
   api:
     build: .
-    command: uvicorn app.main:app --host 0.0.0.0 --port 5000 --reload --workers 1 --ssl-keyfile "./certs/local-key.pem" --ssl-certfile "./certs/local-cert.pem" --ssl-cert-reqs 1
+    command: hypercorn app.main:app --bind '[::]:5000' --reload --workers 1 --keyfile "./certs/local-key.pem" --certfile "./certs/local-cert.pem"
     image: observerly/perseus:latest
     container_name: observerly_perseus
     restart: always
