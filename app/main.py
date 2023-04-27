@@ -87,6 +87,21 @@ async def add_custom_x_headers(request: Request, call_next):
     return response
 
 
+@app.middleware("http")
+async def add_helmet_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Content-Security-Policy"] = "default-src 'self'"
+    response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Strict-Transport-Security"] = "max-age=5184000; includeSubDomains"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Download-Options"] = "noopen"
+    response.headers["X-DNS-Prefetch-Control"] = "off"
+    response.headers["X-Frame-Options"] = "Deny"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
+
+
 @app.on_event("startup")
 async def startup():
     if settings.REDIS_DSN:
