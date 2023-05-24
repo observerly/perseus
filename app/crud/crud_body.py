@@ -116,6 +116,16 @@ class CRUDBody(CRUDBase[Body, BodyCreate, BodyUpdate]):
         # Latitude & Longitude (in degrees):
         latitude = getattr(query_params, "latitude", None)
 
+        if latitude and latitude > 0:
+            query = query.filter(
+                self.model.dec > latitude - 90,
+            )
+
+        if latitude and latitude < 0:
+            query = query.filter(
+                self.model.dec > latitude - 90,
+            )
+
         longitude = getattr(query_params, "longitude", None)
 
         # Performs a search for the give body above a local altitude of 15 degrees
