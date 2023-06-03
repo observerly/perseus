@@ -6,7 +6,7 @@ authors = ["Michael Roberts <michael@observerly.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "0.95.0"
+fastapi = "0.96.0"
 uvicorn = {extras = ["standard"], version = "^0.18.2"}
 hypercorn = "^0.14.3"
 pydantic = "1.10.6"
