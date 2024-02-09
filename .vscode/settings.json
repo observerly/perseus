@@ -1,6 +1,6 @@
 {
   "editor.formatOnSave": true,
-  "python.formatting.provider": "black",
+  "python.formatting.provider": "none",
   "python.formatting.blackArgs": [
     "--line-length=88"
   ],
@@ -16,9 +16,10 @@
   ],
   "[python]": {
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
-    "editor.formatOnPaste": false
+    "editor.formatOnPaste": false,
+    "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": "file:///Users/michael/Developer/observerly/perseus/.github/workflows/deploy.yml"
